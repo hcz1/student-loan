@@ -25,6 +25,7 @@ export default function Chart({ data }: { data?: any }) {
     <Line
       options={{
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
           legend: {
             position: "top",

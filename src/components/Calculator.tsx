@@ -39,13 +39,6 @@ const Left = ({ onSubmit }: any) => {
   );
 };
 
-interface RightProps {
-  balance: number;
-  monthly: number;
-  yearly: number;
-  weekly: number;
-  loan: { years: any[]; isPaidOff: boolean };
-}
 const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
   const data = {
     datasets: [
@@ -67,9 +60,7 @@ const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
         <Tag amount={formatCurrency(monthly)} time="month" />
         <Tag amount={formatCurrency(yearly)} time="year" />
       </div>
-      <div>
-        <Chart data={data} />
-      </div>
+      <Chart data={data} />
     </div>
   );
 };

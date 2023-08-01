@@ -17,7 +17,7 @@ const schema = Yup.object().shape({
   type: Yup.number().required("Required"),
 });
 interface FormProps {
-  onSubmit: (values: {
+  onSubmit?: (values: {
     monthly: number;
     yearly: number;
     weekly: number;
@@ -34,7 +34,8 @@ export default function Form({ onSubmit }: FormProps) {
     },
     onSubmit: (values) => {
       const { balance, salary, type } = values;
-      onSubmit(calculate({ salary, type: type as RepayKey, balance }));
+      onSubmit &&
+        onSubmit(calculate({ salary, type: type as RepayKey, balance }));
     },
   });
   return (
@@ -85,7 +86,7 @@ const SubmitButton = ({
   return (
     <button
       disabled={disabled}
-      className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 border border-gray-500 rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Calculate
     </button>

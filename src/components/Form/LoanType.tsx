@@ -1,4 +1,8 @@
 "use client";
+
+import { Tooltip } from "flowbite-react";
+import { InformationCircle } from "../Icons";
+
 export default function LoanTypeRadio({
   checked,
   onChange,
@@ -7,10 +11,52 @@ export default function LoanTypeRadio({
   onChange: any;
 }) {
   const options = [
-    { id: "loan-type-1", value: "1", label: "Plan 1" },
-    { id: "loan-type-2", value: "2", label: "Plan 2" },
-    { id: "loan-type-4", value: "4", label: "Plan 4" },
-    { id: "loan-type-5", value: "5", label: "Plan 5" },
+    {
+      id: "loan-type-1",
+      value: "1",
+      label: "Plan 1",
+      ttContent: (
+        <span>
+          Plan 1 is for students who started an undergraduate course before 1
+          September 2012.
+        </span>
+      ),
+    },
+    {
+      id: "loan-type-2",
+      value: "2",
+      label: "Plan 2",
+      ttContent: (
+        <span>
+          Plan 2 is for students who started an undergraduate course on or after
+          1 September 2012
+        </span>
+      ),
+    },
+    {
+      id: "loan-type-4",
+      value: "4",
+      label: "Plan 4",
+      ttContent: (
+        <span>
+          Plan 4 is for students who started an undergraduate course on or after{" "}
+          <br /> 1 September 2012 and took out a Postgraduate Loan for a
+          Master`&apos;s course
+        </span>
+      ),
+    },
+    {
+      id: "loan-type-5",
+      value: "5",
+      label: "Plan 5",
+      ttContent: (
+        <span>
+          Plan 5 is for students who started an undergraduate course on or after{" "}
+          <br />1 September 2012 and took out a Postgraduate Loan for a Doctoral
+          course
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -18,18 +64,18 @@ export default function LoanTypeRadio({
       <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
         Loan Plan
       </h3>
-      <ul className="items-center w-full text-sm font-medium text-white bg-white rounded-lg sm:flex dark:bg-gray-600 dark:bg-gray-600 dark:text-white">
-        {options.map(({ id, label, value }) => {
+      <ul className="items-center w-full text-sm font-medium text-white rounded-lg sm:flex bg-gray-600 bg-gray-600 text-white">
+        {options.map(({ id, label, value, ttContent }) => {
           return (
             <li key={id} className="w-full">
-              <div className="flex items-center pl-3">
+              <div className="flex items-center px-3">
                 <input
                   id={id}
                   type="radio"
                   value={value}
                   checked={checked === value}
                   name="loan-type"
-                  className="w-4 h-4 bg-gray-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                  className="w-4 h-4 focus:ring-blue-600 ring-offset-gray-700 focus:ring-offset-gray-700 focus:ring-2  border-gray-500"
                   onChange={onChange}
                 />
                 <label
@@ -38,6 +84,9 @@ export default function LoanTypeRadio({
                 >
                   {label}
                 </label>
+                <Tooltip content={ttContent}>
+                  <InformationCircle />
+                </Tooltip>
               </div>
             </li>
           );
