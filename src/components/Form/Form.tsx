@@ -114,7 +114,7 @@ const Input = ({
     <input
       className={classNames(
         error ? "border-red-500" : "",
-        "appearance-none block w-full bg-gray-600200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        "appearance-none block w-full bg-gray-600200 text-gray-700 border rounded py-3 px-4  leading-tight focus:outline-none focus:bg-white"
       )}
       id={id}
       type="number"
