@@ -27,3 +27,9 @@ body {
     rgb(var(--background-start-rgb)); */
   background-color: rgba(237, 242, 247, var(--bg-opacity)) !important;
 }
+
+section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}

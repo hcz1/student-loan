@@ -4,12 +4,7 @@ import Form from "./Form/Form";
 import { formatCurrency } from "@/utils";
 import Chart from "./Chart";
 import { Calculate } from "@/types";
-interface State {
-  monthly: number;
-  yearly: number;
-  weekly: number;
-  loan: { years: any[] };
-}
+
 export default function Calculator() {
   const [state, setState] = useState<Calculate>({
     balance: 0,
