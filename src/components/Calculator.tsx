@@ -2,18 +2,30 @@
 import { useState } from "react";
 import Form from "./Form/Form";
 import { formatCurrency } from "@/utils";
+import Chart from "./Chart";
+import { Calculate } from "@/types";
+interface State {
+  monthly: number;
+  yearly: number;
+  weekly: number;
+  loan: { years: any[] };
+}
 export default function Calculator() {
-  const [state, setState] = useState({ monthly: 0, yearly: 0, weekly: 0 });
+  const [state, setState] = useState<Calculate>({
+    balance: 0,
+    salary: 0,
+    type: "1",
+    monthly: 0,
+    yearly: 0,
+    weekly: 0,
+    loan: { years: [], isPaidOff: false },
+  });
   return (
     <section className="py-24 bg-white overflow-hidden" id="calculator">
       <div className="container px-4 mx-auto">
         <div className="flex flex-wrap -mx-4">
           <Left
-            onSubmit={(values: {
-              monthly: number;
-              weekly: number;
-              yearly: number;
-            }) => {
+            onSubmit={(values: Calculate) => {
               setState(values);
             }}
           />
@@ -26,33 +38,50 @@ export default function Calculator() {
 
 const Left = ({ onSubmit }: any) => {
   return (
-    <div className="w-full md:w-1/2 px-4 mb-16 md:mb-0 shadow-md rounded pt-6 pb-8 mb-4">
+    <div className="w-full md:w-1/2 px-4 mb-16 md:mb-0 shadow-xl rounded pt-6 pb-8 mb-4">
       <Form onSubmit={onSubmit} />
     </div>
   );
 };
 
 interface RightProps {
+  balance: number;
   monthly: number;
   yearly: number;
   weekly: number;
+  loan: { years: any[]; isPaidOff: boolean };
 }
-const Right = ({ monthly, yearly, weekly }: RightProps) => {
+const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
+  const data = {
+    datasets: [
+      {
+        data: years.map((year, i) => ({
+          y: year.balance,
+          x: (new Date().getFullYear() + i).toString(),
+        })),
+        label: "Balance",
+      },
+    ],
+  };
+  console.log(data);
   return (
     <div className="w-full md:w-1/2 px-4 flex flex-col gap-5">
       You&apos;ll pay:
-      <Tag text={`${formatCurrency(weekly)} per week`} />
-      <Tag text={`${formatCurrency(monthly)} per month`} />
-      <Tag text={`${formatCurrency(yearly)} per year`} />
+      <div className="flex gap-2 text-center">
+        <Tag amount={formatCurrency(weekly)} time="week" />
+        <Tag amount={formatCurrency(monthly)} time="month" />
+        <Tag amount={formatCurrency(yearly)} time="year" />
+      </div>
+      <div>
+        <Chart data={data} />
+      </div>
     </div>
   );
 };
-function Tag({ text }: { text: string }) {
+function Tag({ amount, time }: { amount: string; time: string }) {
   return (
-    <div className="">
-      <p className="max-w-[200px]  bg-gray-600 text-white p-2 rounded">
-        {text}
-      </p>
-    </div>
+    <p className="bg-gray-600 text-white p-2 rounded flex-1 shadow-xl">
+      {amount} <br /> per {time}
+    </p>
   );
 }

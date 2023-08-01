@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { AcedemicCap } from "./Icons";
 import Image from "next/image";
+import { classNames } from "@/utils";
 
 const navigation = [
   { name: "Calculator", href: "#calculator", current: true },
@@ -12,11 +13,7 @@ const navigation = [
   //   { name: "Calendar", href: "#", current: false },
 ];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function Example() {
+export default function Navbar() {
   return (
     <Disclosure as="nav" className="bg-gray-600">
       {({ open }) => (

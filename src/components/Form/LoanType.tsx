@@ -12,18 +12,16 @@ export default function LoanTypeRadio({
     { id: "loan-type-4", value: "4", label: "Plan 4" },
     { id: "loan-type-5", value: "5", label: "Plan 5" },
   ];
+
   return (
     <div className="flex flex-wrap">
       <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
         Loan Plan
       </h3>
-      <ul className="items-center w-full text-sm font-medium text-white bg-white border border-gray-800 rounded-lg sm:flex dark:bg-gray-600 dark:bg-gray-600 dark:text-white">
+      <ul className="items-center w-full text-sm font-medium text-white bg-white rounded-lg sm:flex dark:bg-gray-600 dark:bg-gray-600 dark:text-white">
         {options.map(({ id, label, value }) => {
           return (
-            <li
-              key={id}
-              className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600"
-            >
+            <li key={id} className="w-full">
               <div className="flex items-center pl-3">
                 <input
                   id={id}
