@@ -28,6 +28,7 @@ export const calculate = ({
   return {
     balance,
     salary,
+    type,
     monthly: monthlyRepay,
     yearly: yearlyRepay,
     weekly: monthlyRepay / 4,

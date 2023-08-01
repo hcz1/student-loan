@@ -1,13 +1,14 @@
 "use client";
 import Form from "./Form/Form";
+import { InformationCircle } from "./Icons";
 
-export default function Hero() {
+export default function Hero({ onSubmit }: { onSubmit: any }) {
   return (
     <section className="md:pb-28">
       <div className="container px-4 mx-auto">
         <div className="flex flex-wrap xl:items-center -mx-4">
           <Left />
-          <Right />
+          <Right onSubmit={onSubmit} />
         </div>
       </div>
     </section>
@@ -27,24 +28,21 @@ const Left = () => {
         Say goodbye to confusion and uncertainty with our user-friendly Student
         Loan Repayment Calculator!
       </p>
-      <div className="flex flex-wrap">
-        <div className="w-full md:w-auto py-1 md:py-0 md:mr-4">
-          <a href="#calculator">
-            <button className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-md shadow-sm">
-              Calculator
-            </button>
-          </a>
-        </div>
+      <div className="items-center w-full text-sm font-medium text-white rounded-lg flex bg-gray-600 bg-gray-600 text-white py-2 px-2 shadow-xl">
+        <InformationCircle />
+        <span className="ml-2">
+          Please note this calculator is <b>not</b> financial advice
+        </span>
       </div>
     </div>
   );
 };
 
-const Right = () => {
+const Right = ({ onSubmit }: any) => {
   return (
     <div className="w-full md:w-1/2 px-4">
-      <div className="w-full px-4 mb-16 md:mb-0 shadow-xl rounded pt-6 pb-8 mb-4 bg-white">
-        <Form />
+      <div className="w-full p-4 mb-16 md:mb-0 shadow-xl rounded mb-4 bg-white">
+        <Form onSubmit={onSubmit} />
       </div>
     </div>
   );

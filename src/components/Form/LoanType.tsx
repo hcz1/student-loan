@@ -6,9 +6,11 @@ import { InformationCircle } from "../Icons";
 export default function LoanTypeRadio({
   checked,
   onChange,
+  year,
 }: {
   checked: string;
   onChange: any;
+  year?: number;
 }) {
   const options = [
     {
@@ -21,6 +23,7 @@ export default function LoanTypeRadio({
           September 2012.
         </span>
       ),
+      disabled: !!year && year >= 2012,
     },
     {
       id: "loan-type-2",
@@ -32,6 +35,7 @@ export default function LoanTypeRadio({
           1 September 2012
         </span>
       ),
+      disabled: !!year && year < 2012,
     },
     {
       id: "loan-type-4",
@@ -44,6 +48,7 @@ export default function LoanTypeRadio({
           Master`&apos;s course
         </span>
       ),
+      disabled: !!year && year < 2012,
     },
     {
       id: "loan-type-5",
@@ -56,6 +61,7 @@ export default function LoanTypeRadio({
           course
         </span>
       ),
+      disabled: !!year && year < 2012,
     },
   ];
 
@@ -64,18 +70,19 @@ export default function LoanTypeRadio({
       <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
         Loan Plan
       </h3>
-      <ul className="items-center w-full text-sm font-medium text-white rounded-lg sm:flex bg-gray-600 bg-gray-600 text-white">
-        {options.map(({ id, label, value, ttContent }) => {
+      <ul className="items-center w-full text-sm font-medium text-white rounded-lg lg:flex bg-gray-600 bg-gray-600 text-white">
+        {options.map(({ id, label, value, ttContent, disabled }) => {
           return (
             <li key={id} className="w-full">
               <div className="flex items-center px-3">
                 <input
+                  disabled={disabled}
                   id={id}
                   type="radio"
                   value={value}
                   checked={checked === value}
                   name="loan-type"
-                  className="w-4 h-4 focus:ring-blue-600 ring-offset-gray-700 focus:ring-offset-gray-700 focus:ring-2  border-gray-500"
+                  className="w-4 h-4 focus:ring-blue-600 ring-offset-gray-700 focus:ring-offset-gray-700 focus:ring-2 border-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   onChange={onChange}
                 />
                 <label

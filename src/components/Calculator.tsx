@@ -1,30 +1,19 @@
 "use client";
-import { useState } from "react";
-import Form from "./Form/Form";
 import { formatCurrency } from "@/utils";
 import Chart from "./Chart";
 import { Calculate } from "@/types";
 
-export default function Calculator() {
-  const [state, setState] = useState<Calculate>({
-    balance: 0,
-    salary: 0,
-    type: "1",
-    monthly: 0,
-    yearly: 0,
-    weekly: 0,
-    loan: { years: [], isPaidOff: false },
-  });
+export default function Calculator(props: any) {
   return (
     <section className="py-24 bg-white overflow-hidden" id="calculator">
       <div className="container px-4 mx-auto">
         <div className="flex flex-wrap -mx-4">
-          <Left
+          {/* <Left
             onSubmit={(values: Calculate) => {
               setState(values);
             }}
-          />
-          <Right {...state} />
+          /> */}
+          <Right {...props} />
         </div>
       </div>
     </section>
@@ -33,25 +22,10 @@ export default function Calculator() {
 
 const Left = ({ onSubmit }: any) => {
   return (
-    <div className="w-full md:w-1/2 px-4 mb-16 md:mb-0 shadow-xl rounded pt-6 pb-8 mb-4">
-      <Form onSubmit={onSubmit} />
-    </div>
+    <div className="w-full md:w-1/2 px-4 mb-16 md:mb-0 shadow-xl rounded pt-6 pb-8 mb-4"></div>
   );
 };
-
 const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
-  const data = {
-    datasets: [
-      {
-        data: years.map((year, i) => ({
-          y: year.balance,
-          x: (new Date().getFullYear() + i).toString(),
-        })),
-        label: "Balance",
-      },
-    ],
-  };
-  console.log(data);
   return (
     <div className="w-full md:w-1/2 px-4 flex flex-col gap-5">
       You&apos;ll pay:
@@ -60,7 +34,19 @@ const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
         <Tag amount={formatCurrency(monthly)} time="month" />
         <Tag amount={formatCurrency(yearly)} time="year" />
       </div>
-      <Chart data={data} />
+      <Chart
+        data={{
+          datasets: [
+            {
+              data: years.map((year, i) => ({
+                y: year.balance,
+                x: (new Date().getFullYear() + i).toString(),
+              })),
+              label: "Balance",
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
