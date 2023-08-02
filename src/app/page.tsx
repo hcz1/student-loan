@@ -1,5 +1,5 @@
 "use client";
-import Calculator from "@/components/Calculator";
+import Data from "@/components/Data";
 import Hero from "@/components/Hero";
 import { Calculate } from "@/types";
 import { useState } from "react";
@@ -9,19 +9,27 @@ export default function Home() {
     balance: 0,
     salary: 0,
     type: "1",
+    originalBalance: 0,
     monthly: 0,
     yearly: 0,
     weekly: 0,
-    loan: { years: [], isPaidOff: false },
+    hasCalculated: false,
+    loan: {
+      years: [],
+      isPaidOff: false,
+      totalPaid: 0,
+      loanEndYear: 0,
+      loanDuration: 0,
+    },
   });
   return (
     <>
       <Hero
         onSubmit={(values: any) => {
-          setState(values);
+          setState({ ...values, hasCalculated: true });
         }}
       />
-      <Calculator {...state} />
+      {state.hasCalculated && <Data {...state} />}
     </>
   );
 }

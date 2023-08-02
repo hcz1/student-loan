@@ -5,7 +5,9 @@ import {
   ChangeEvent,
   InputHTMLAttributes,
   LabelHTMLAttributes,
+  PropsWithChildren,
   ReactNode,
+  useState,
 } from "react";
 import { useFormik } from "formik";
 import { calculate, classNames } from "@/utils";
@@ -33,6 +35,7 @@ interface FormProps {
 }
 
 export default function Form({ onSubmit }: FormProps) {
+  const [isAssumptions, setIsAssumptions] = useState(false);
   const formik = useFormik({
     initialValues: {
       balance: undefined,
@@ -44,97 +47,148 @@ export default function Form({ onSubmit }: FormProps) {
     validationSchema: schema,
     validateOnMount: true,
     onSubmit: (values) => {
-      const { balance, salary, type } = values;
-      if (onSubmit && balance && salary && type) {
-        onSubmit(calculate({ salary, type: type as RepayKey, balance }));
+      const { balance, salary, type, year_started, duration } = values;
+      if (onSubmit && balance && salary && type && year_started && duration) {
+        onSubmit(
+          calculate({
+            salary,
+            type: type as RepayKey,
+            balance,
+            startYear: year_started,
+            duration,
+          })
+        );
       }
     },
   });
   return (
-    <form className="w-full flex flex-col gap-2" onSubmit={formik.handleSubmit}>
-      {/* Line */}
-      <div className="flex flex-wrap -mx-3">
-        {/* Balance */}
-        <div className="w-full px-3">
-          <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
-          <Input
-            onChange={formik.handleChange}
-            id={"balance"}
-            name={"balance"}
-            error={!!formik.errors.balance}
-            withIcon={<CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />}
-          />
-          <ErrorLine text={formik.errors.balance} />
-        </div>
-      </div>
-      {/* Line */}
-      <div className="flex flex-wrap -mx-3">
-        {/* Salary */}
-        <div className="w-full px-3">
-          <InputLabel htmlFor="salary">Gross Salary</InputLabel>
-          <Input
-            onChange={formik.handleChange}
-            id={"salary"}
-            name={"salary"}
-            error={!!formik.errors.salary}
-            withIcon={<CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />}
-          />
-          <ErrorLine text={formik.errors.salary} />
-        </div>
-      </div>
-      {/* Line */}
-      <div className="flex flex-wrap -mx-3">
-        {/* Year */}
-        <div className="w-1/2 px-3">
-          <InputLabel htmlFor="year_started">Year Started</InputLabel>
-          <Input
-            placeholder="2015"
-            onChange={(e) => {
-              if (
-                formik.values.type === "1" &&
-                parseInt(e.target.value) >= 2012
-              ) {
-                formik.setFieldValue("type", "2");
-              } else if (
-                formik.values.type !== "1" &&
-                parseInt(e.target.value) < 2012
-              ) {
-                formik.setFieldValue("type", "1");
-              }
-              formik.handleChange(e);
-            }}
-            id={"year_started"}
-            name={"year_started"}
-            error={!!formik.errors.year_started}
-            min={2000}
-            max={new Date().getFullYear()}
-          />
-          <ErrorLine text={formik.errors.year_started} />
-        </div>
-        {/* Duration */}
-        <div className="w-1/2 px-3">
-          <InputLabel htmlFor="duration">Course Duration</InputLabel>
-          <Input
-            placeholder="3"
-            onChange={formik.handleChange}
-            id={"duration"}
-            name={"duration"}
-            error={!!formik.errors.duration}
-            min={3}
-            max={7}
-          />
-          <ErrorLine text={formik.errors.duration} />
-        </div>
-      </div>
-      {/* Line */}
-      <LoanTypeRadio
-        checked={formik.values.type}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          formik.setFieldValue("type", e.target.value);
+    <form
+      className="w-full flex flex-col gap-2 min-h-[462px]"
+      onSubmit={formik.handleSubmit}
+    >
+      <button
+        type="button"
+        className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg shadow-xl"
+        onClick={() => {
+          setIsAssumptions((prev) => !prev);
         }}
-        year={formik.values.year_started}
-      />
-      <SubmitButton disabled={!formik.isValid} />
+      >
+        Change Assumptions
+      </button>
+      {isAssumptions ? (
+        <>
+          <FormLine>
+            {/* Balance */}
+            <div className="w-full px-3">
+              <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
+              <Input
+                onChange={formik.handleChange}
+                id={"balance"}
+                name={"balance"}
+                error={!!formik.errors.balance}
+                withIcon={
+                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
+                }
+              />
+              <ErrorLine text={formik.errors.balance} />
+            </div>
+          </FormLine>
+        </>
+      ) : (
+        <>
+          <FormLine>
+            {/* Balance */}
+            <div className="w-full px-3">
+              <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
+              <Input
+                onChange={formik.handleChange}
+                id={"balance"}
+                name={"balance"}
+                error={!!formik.errors.balance}
+                withIcon={
+                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
+                }
+              />
+              <ErrorLine text={formik.errors.balance} />
+            </div>
+          </FormLine>
+          <FormLine>
+            {/* Salary */}
+            <div className="w-full px-3">
+              <InputLabel htmlFor="salary">Gross Salary</InputLabel>
+              <Input
+                onChange={formik.handleChange}
+                id={"salary"}
+                name={"salary"}
+                error={!!formik.errors.salary}
+                withIcon={
+                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
+                }
+              />
+              <ErrorLine text={formik.errors.salary} />
+            </div>
+          </FormLine>
+          <FormLine>
+            {/* Year */}
+            <div className="w-1/2 px-3">
+              <InputLabel htmlFor="year_started">Year Started</InputLabel>
+              <Input
+                placeholder="2015"
+                onChange={(e) => {
+                  if (
+                    formik.values.type === "1" &&
+                    parseInt(e.target.value) >= 2012
+                  ) {
+                    formik.setFieldValue("type", "2");
+                  } else if (
+                    formik.values.type !== "1" &&
+                    parseInt(e.target.value) < 2012
+                  ) {
+                    formik.setFieldValue("type", "1");
+                  }
+                  formik.handleChange(e);
+                }}
+                id={"year_started"}
+                name={"year_started"}
+                error={!!formik.errors.year_started}
+                min={2000}
+                max={new Date().getFullYear()}
+              />
+              <ErrorLine text={formik.errors.year_started} />
+            </div>
+            {/* Duration */}
+            <div className="w-1/2 px-3">
+              <InputLabel htmlFor="duration">Course Duration</InputLabel>
+              <Input
+                placeholder="3"
+                onChange={formik.handleChange}
+                id={"duration"}
+                name={"duration"}
+                error={!!formik.errors.duration}
+                min={3}
+                max={7}
+              />
+              <ErrorLine text={formik.errors.duration} />
+            </div>
+          </FormLine>
+          <FormLine>
+            <div className="w-full px-3">
+              <LoanTypeRadio
+                checked={formik.values.type}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  formik.setFieldValue("type", e.target.value);
+                }}
+                year={formik.values.year_started}
+              />
+            </div>
+          </FormLine>
+          <FormLine>
+            <div className="w-full px-3">
+              <SubmitButton disabled={!formik.isValid} />
+            </div>
+          </FormLine>
+        </>
+      )}
     </form>
   );
 }
@@ -146,14 +200,16 @@ const SubmitButton = ({
   return (
     <button
       onClick={(e) => {
-        document
-          .querySelector("#calculator")
-          ?.scrollIntoView({ behavior: "smooth" });
         onClick && onClick(e);
+        setTimeout(() => {
+          document
+            .querySelector("#results")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }, 200);
       }}
       type="submit"
       disabled={disabled}
-      className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+      className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Calculate
     </button>
@@ -198,4 +254,8 @@ const Input = ({
 };
 const ErrorLine = ({ text }: { text?: string }) => {
   return <p className="h-[16px] text-red-500 text-xs italic">{text}</p>;
+};
+
+const FormLine = ({ children }: PropsWithChildren) => {
+  return <div className="flex flex-wrap -mx-3">{children}</div>;
 };

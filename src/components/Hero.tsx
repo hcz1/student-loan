@@ -5,7 +5,7 @@ import { InformationCircle } from "./Icons";
 export default function Hero({ onSubmit }: { onSubmit: any }) {
   return (
     <section className="md:pb-28 pt-28">
-      <div className="container px-4 mx-auto">
+      <div className="container px-4 mx-auto pb-10 md:pb-0">
         <div className="flex flex-wrap xl:items-center -mx-4">
           <Left />
           <Right onSubmit={onSubmit} />
@@ -17,8 +17,8 @@ export default function Hero({ onSubmit }: { onSubmit: any }) {
 
 const Left = () => {
   return (
-    <div className="w-full md:w-1/2 px-4 mb-16 md:mb-0">
-      <h1 className="mb-6 text-2xl md:text-4xl lg:text-5xl leading-tight font-bold tracking-tight text-center md:text-left">
+    <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
+      <h1 className="mb-6 text-5xl md:leading-tight font-bold tracking-tight text-center md:text-left">
         Calculate your student loan repayment
       </h1>
       <p className="mb-8 text-lg md:text-xl font-medium">
@@ -29,9 +29,16 @@ const Left = () => {
         Loan Repayment Calculator!
       </p>
       <div className="items-center w-full text-sm font-medium text-white rounded-lg flex bg-gray-600 bg-gray-600 text-white py-2 px-2 shadow-xl">
-        <InformationCircle />
+        <InformationCircle className="h-12 md:h-8" />
         <span className="ml-2">
-          Please note this calculator is <b>not</b> financial advice
+          Please note this calculator is <b>not</b> financial advice. Please see{" "}
+          <a
+            href="https://www.gov.uk/government/organisations/student-loans-company"
+            target="_blank"
+          >
+            <b>SLC </b>
+          </a>
+          for more information.
         </span>
       </div>
     </div>

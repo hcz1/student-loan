@@ -93,7 +93,7 @@ export default function LoanTypeRadio({
                 >
                   {label}
                 </label>
-                <Tooltip content={ttContent}>
+                <Tooltip id="tooltip" content={ttContent}>
                   <InformationCircle className="w-8 h-8 md:w-5 md:h-5 xl:w-8 xl:h-8" />
                 </Tooltip>
               </div>

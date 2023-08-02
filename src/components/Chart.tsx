@@ -1,3 +1,4 @@
+import { formatCurrency } from "@/utils";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,16 +25,22 @@ export default function Chart({ data }: { data?: any }) {
   return (
     <Line
       options={{
+        scales: {
+          y: {
+            ticks: {
+              callback: function (value: any, index: any, values: any) {
+                return formatCurrency(value);
+              },
+            },
+          },
+        },
         responsive: true,
         maintainAspectRatio: true,
         plugins: {
           legend: {
             position: "top",
           },
-          title: {
-            // display: true,
-            // text: "Chart.js Line Chart",
-          },
+          title: {},
         },
       }}
       data={data}
