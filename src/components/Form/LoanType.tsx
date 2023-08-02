@@ -23,7 +23,7 @@ export default function LoanTypeRadio({
           September 2012.
         </span>
       ),
-      disabled: !!year && year >= 2012,
+      disabled: !!year && year > 2012,
     },
     {
       id: "loan-type-2",
@@ -61,7 +61,7 @@ export default function LoanTypeRadio({
           course
         </span>
       ),
-      disabled: !!year && year < 2012,
+      disabled: !!year && year < 2023,
     },
   ];
 
@@ -70,7 +70,7 @@ export default function LoanTypeRadio({
       <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
         Loan Plan
       </h3>
-      <ul className="items-center w-full text-sm font-medium text-white rounded-lg lg:flex bg-gray-600 bg-gray-600 text-white">
+      <ul className="shadow-xl items-center w-full text-sm font-medium text-white rounded-lg lg:flex bg-gray-600 bg-gray-600 text-white">
         {options.map(({ id, label, value, ttContent, disabled }) => {
           return (
             <li key={id} className="w-full">
@@ -87,12 +87,14 @@ export default function LoanTypeRadio({
                 />
                 <label
                   htmlFor={id}
-                  className="w-full py-3 ml-2 text-sm font-medium"
+                  className={`w-full py-3 ml-2 text-sm font-medium ${
+                    disabled ? "line-through" : ""
+                  }`}
                 >
                   {label}
                 </label>
                 <Tooltip content={ttContent}>
-                  <InformationCircle />
+                  <InformationCircle className="w-8 h-8 md:w-5 md:h-5 xl:w-8 xl:h-8" />
                 </Tooltip>
               </div>
             </li>

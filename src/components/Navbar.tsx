@@ -13,14 +13,14 @@ const navigation = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-600">
+    <Disclosure as="nav" className="fixed w-full bg-gray-600">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 sm:px-6">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-600700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-lg p-2 text-gray-400 hover:bg-gray-600700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -44,7 +44,7 @@ export default function Navbar() {
                           item.current
                             ? "bg-gray-500 text-white"
                             : "text-gray-300 hover:bg-gray-600700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-lg px-3 py-2 text-sm font-medium shadow-xl"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
@@ -55,12 +55,18 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  className="bg-gray-500 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  aria-hidden="true"
+                <a
+                  href="https://bmc.link/hczdev"
+                  rel="noopener"
+                  target="_blank"
                 >
-                  Buy me a coffee
-                </button>
+                  <button
+                    className="shadow-xl bg-gray-500 text-white rounded-lg px-3 py-2 text-sm font-medium"
+                    aria-hidden="true"
+                  >
+                    Buy me a coffee
+                  </button>
+                </a>
               </div>
             </div>
           </div>
@@ -76,7 +82,7 @@ export default function Navbar() {
                     item.current
                       ? "bg-gray-600900 text-white"
                       : "text-gray-300 hover:bg-gray-600700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
+                    "block rounded-lg px-3 py-2 text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >

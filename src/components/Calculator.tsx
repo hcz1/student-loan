@@ -52,7 +52,7 @@ const Right = ({ monthly, yearly, weekly, loan: { years } }: Calculate) => {
 };
 function Tag({ amount, time }: { amount: string; time: string }) {
   return (
-    <p className="bg-gray-600 text-white p-2 rounded flex-1 shadow-xl">
+    <p className="bg-gray-600 text-white p-2 rounded-lg flex-1 shadow-xl">
       {amount} <br /> per {time}
     </p>
   );

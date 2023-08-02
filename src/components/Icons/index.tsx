@@ -1,4 +1,4 @@
-export const AcedemicCap = () => {
+export const AcedemicCap = ({ className }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export const AcedemicCap = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="white"
-      className="w-6 h-6"
+      className={className || "w-6 h-6"}
     >
       <path
         strokeLinecap="round"
@@ -16,16 +16,15 @@ export const AcedemicCap = () => {
     </svg>
   );
 };
-export const InformationCircle = ({ tooltipId }: { tooltipId?: string }) => {
+export const InformationCircle = ({ className }: { className?: string }) => {
   return (
     <svg
-      data-tooltip-target={tooltipId}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-8 h-8"
+      className={className || "w-8 h-8"}
     >
       <path
         strokeLinecap="round"
