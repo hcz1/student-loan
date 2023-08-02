@@ -41,7 +41,7 @@ export default function Form({ onSubmit }: FormProps) {
       balance: undefined,
       salary: undefined,
       type: "1",
-      year_started: undefined,
+      year_started: 2012,
       duration: undefined,
     },
     validationSchema: schema,
@@ -153,6 +153,7 @@ export default function Form({ onSubmit }: FormProps) {
                 error={!!formik.errors.year_started}
                 min={2000}
                 max={new Date().getFullYear()}
+                value={formik.values.year_started}
               />
               <ErrorLine text={formik.errors.year_started} />
             </div>

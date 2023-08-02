@@ -45,7 +45,7 @@ export default function LoanTypeRadio({
         <span>
           Plan 4 is for students who started an undergraduate course on or after{" "}
           <br /> 1 September 2012 and took out a Postgraduate Loan for a
-          Master`&apos;s course
+          Master&apos;s course
         </span>
       ),
       disabled: !!year && year < 2012,
@@ -63,16 +63,38 @@ export default function LoanTypeRadio({
       ),
       disabled: !!year && year < 2023,
     },
+    {
+      id: "loan-type-6",
+      value: "6",
+      label: "Postgrad Loan",
+      ttContent: (
+        <span>
+          Postgraduate Loan is for students who started a Postgraduate
+          Master&apos;s or Doctoral course on or after 1 August 2016
+        </span>
+      ),
+      disabled: !!year && year < 2016,
+    },
   ];
 
   return (
     <div className="flex flex-wrap">
-      <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-        Loan Plan
-      </h3>
+      <div className="flex items-center mb-2">
+        <h3 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mr-1">
+          Loan Plan
+        </h3>
+        <Tooltip
+          id="tooltip"
+          content={
+            <span>Change the year started to get the correct loan type</span>
+          }
+        >
+          <InformationCircle className="h-5" />
+        </Tooltip>
+      </div>
       <ul className="shadow-xl items-center w-full text-sm font-medium text-white rounded-lg lg:flex bg-gray-600 bg-gray-600 text-white">
         {options.map(({ id, label, value, ttContent, disabled }) => {
-          return (
+          return !disabled ? (
             <li key={id} className="w-full">
               <div className="flex items-center px-3">
                 <input
@@ -94,11 +116,11 @@ export default function LoanTypeRadio({
                   {label}
                 </label>
                 <Tooltip id="tooltip" content={ttContent}>
-                  <InformationCircle className="w-8 h-8 md:w-5 md:h-5 xl:w-8 xl:h-8" />
+                  <InformationCircle className="w-5 h-5 md:w-5 md:h-5 xl:w-6 xl:h-6" />
                 </Tooltip>
               </div>
             </li>
-          );
+          ) : null;
         })}
       </ul>
     </div>

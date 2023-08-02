@@ -7,20 +7,15 @@ export default function PieChart({ data }: { data?: any }) {
   return (
     <Pie
       options={{
-        // scales: {
-        //   y: {
-        //     ticks: {
-        //       callback: function (value: any, index: any, values: any) {
-        //         return formatCurrency(value);
-        //       },
-        //     },
-        //   },
-        // },
+        scales: {},
         responsive: true,
         maintainAspectRatio: true,
         plugins: {
           legend: {
             position: "top",
+            labels: {
+              color: "#fff",
+            },
           },
           title: {},
         },

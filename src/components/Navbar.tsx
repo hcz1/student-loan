@@ -13,7 +13,7 @@ const navigation = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="fixed w-full bg-gray-600">
+    <Disclosure as="nav" className="fixed w-full bg-gray-900">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 sm:px-6">
@@ -22,7 +22,7 @@ export default function Navbar() {
                 {/* Mobile menu button*/}
                 <Disclosure.Button
                   id="main-menu"
-                  className="relative inline-flex items-center justify-center rounded-lg p-2 text-gray-400 hover:bg-gray-600700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  className="relative inline-flex items-center justify-center rounded-lg p-2 text-gray-400 hover:bg-gray-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 >
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -46,7 +46,7 @@ export default function Navbar() {
                         className={classNames(
                           item.current
                             ? "bg-gray-500 text-white"
-                            : "text-gray-300 hover:bg-gray-600700 hover:text-white",
+                            : "text-gray-300 hover:bg-gray-600 hover:text-white",
                           "rounded-lg px-3 py-2 text-sm font-medium shadow-xl"
                         )}
                         aria-current={item.current ? "page" : undefined}
@@ -84,8 +84,8 @@ export default function Navbar() {
                   href={item.href}
                   className={classNames(
                     item.current
-                      ? "bg-gray-600900 text-white"
-                      : "text-gray-300 hover:bg-gray-600700 hover:text-white",
+                      ? "bg-gray-600 text-white"
+                      : "text-gray-300 hover:bg-gray-600 hover:text-white",
                     "block rounded-lg px-3 py-2 text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}

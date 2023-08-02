@@ -28,9 +28,24 @@ export default function Chart({ data }: { data?: any }) {
         scales: {
           y: {
             ticks: {
+              color: "#fff",
               callback: function (value: any, index: any, values: any) {
                 return formatCurrency(value);
               },
+            },
+            title: {
+              color: "#fff",
+            },
+            grid: {
+              color: "#fff",
+            },
+          },
+          x: {
+            ticks: {
+              color: "#fff",
+            },
+            grid: {
+              color: "#fff",
             },
           },
         },
@@ -39,8 +54,13 @@ export default function Chart({ data }: { data?: any }) {
         plugins: {
           legend: {
             position: "top",
+            labels: {
+              color: "#fff",
+            },
           },
-          title: {},
+          title: {
+            color: "#fff",
+          },
         },
       }}
       data={data}
