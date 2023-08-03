@@ -1,4 +1,5 @@
 "use client";
+import { twMerge } from "tailwind-merge";
 import { formatCurrency } from "@/utils";
 import Chart from "./Chart";
 import { Calculate } from "@/types";
@@ -54,9 +55,34 @@ const Left = ({
   weekly,
   loan: { years, totalPaid, isPaidOff, loanEndYear, loanDuration },
 }: Calculate) => {
+  const difference = totalPaid - originalBalance;
+  const percentage = (Math.abs(difference / originalBalance) * 100).toFixed(2);
   return (
-    <div className="w-full md:w-1/2 px-4 flex flex-col gap-2">
-      <div className="text-center">
+    <div className="w-full md:w-1/2 px-4 flex flex-col gap-2 text-center">
+      <div>
+        <Tag
+          rounded="rounded-tl-lg rounded-tr-lg"
+          amount={"This year you will pay"}
+        />
+        <div className="flex">
+          <Tag
+            rounded="rounded-bl-lg"
+            amount={<b>{formatCurrency(weekly)}</b>}
+            time="per week"
+          />
+          <Tag
+            rounded=""
+            amount={<b>{formatCurrency(monthly)}</b>}
+            time="per month"
+          />
+          <Tag
+            rounded="rounded-br-lg"
+            amount={<b>{formatCurrency(yearly)}</b>}
+            time="per year"
+          />
+        </div>
+      </div>
+      <div>
         <Tag
           amount={
             <span>
@@ -66,7 +92,7 @@ const Left = ({
           }
         />
       </div>
-      <div className="flex gap-2 text-center">
+      <div className="flex gap-2">
         <Tag
           amount={
             <span>
@@ -90,28 +116,27 @@ const Left = ({
           amount="Total payments"
         />
       </div>
-      <div className="flex gap-2 text-center">
-        <Tag amount={<b>{formatCurrency(weekly)}</b>} time="per week" />
-        <Tag amount={<b>{formatCurrency(monthly)}</b>} time="per month" />
-        <Tag amount={<b>{formatCurrency(yearly)}</b>} time="per year" />
-      </div>
-      <div className="text-center">
+      <div>
         <Tag
           amount={
-            <p className="text-white">
-              From the original <b>{formatCurrency(originalBalance)}</b> you
-              paid
-              <br /> <b>{formatCurrency(totalPaid - originalBalance)}</b>
-              <b>
-                (
-                {(
-                  ((totalPaid - originalBalance) / originalBalance) *
-                  100
-                ).toFixed(2)}
-                %){" "}
-              </b>
-              in interest
-            </p>
+            <>
+              {isPaidOff && (
+                <>
+                  From the original <b>{formatCurrency(originalBalance)}</b> you
+                  paid an extra
+                  <br /> <b>{formatCurrency(difference)}</b>
+                  <b>({percentage}%) </b>
+                  in interest
+                </>
+              )}
+              {!isPaidOff && (
+                <>
+                  From the original <b>{formatCurrency(originalBalance)}</b> you
+                  paid <b>{formatCurrency(Math.abs(totalPaid))}</b>
+                  <br /> <b>{percentage}%</b> less then you borrowed
+                </>
+              )}
+            </>
           }
         />
       </div>
@@ -146,9 +171,23 @@ const Left = ({
     </div>
   );
 };
-function Tag({ amount, time }: { amount: ReactNode; time?: ReactNode }) {
+function Tag({
+  className,
+  amount,
+  time,
+  rounded,
+}: {
+  className?: string;
+  amount: ReactNode;
+  rounded?: string;
+  time?: ReactNode;
+}) {
   return (
-    <p className="bg-gray-600 text-white p-2 rounded-lg flex-1 shadow-xl">
+    <p
+      className={twMerge(
+        `bg-gray-600 text-white p-2 flex-1 shadow-xl ${rounded ?? "rounded-lg"}`
+      )}
+    >
       {amount}{" "}
       {!!time ? (
         <>

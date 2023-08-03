@@ -13,7 +13,7 @@ const navigation = [
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="fixed w-full bg-gray-900">
+    <Disclosure as="nav" className="fixed w-full bg-gray-600">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-8xl px-2 sm:px-6">
@@ -45,7 +45,7 @@ export default function Navbar() {
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? "bg-gray-500 text-white"
+                            ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-600 hover:text-white",
                           "rounded-lg px-3 py-2 text-sm font-medium shadow-xl"
                         )}
@@ -64,7 +64,7 @@ export default function Navbar() {
                   target="_blank"
                 >
                   <button
-                    className="shadow-xl bg-gray-500 text-white rounded-lg px-3 py-2 text-sm font-medium"
+                    className="shadow-xl bg-gray-900 text-white rounded-lg px-3 py-2 text-sm font-medium"
                     aria-hidden="true"
                   >
                     Buy me a coffee
@@ -84,7 +84,7 @@ export default function Navbar() {
                   href={item.href}
                   className={classNames(
                     item.current
-                      ? "bg-gray-600 text-white"
+                      ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-600 hover:text-white",
                     "block rounded-lg px-3 py-2 text-base font-medium"
                   )}

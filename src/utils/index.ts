@@ -15,7 +15,7 @@ export const calculate = ({
 }) => {
   const originalBalance = balance;
   const endYear = startYear + duration;
-  const loanEndYear = endYear + 30;
+  const loanWrittenOffYear = endYear + 30;
   const thisYear = new Date().getFullYear();
 
   const { monthlyThreashold, percentage, interest } = REPAY[type];
@@ -25,21 +25,8 @@ export const calculate = ({
       ? (monthlySalary - monthlyThreashold) * percentage
       : 0;
   const yearlyRepay = monthlyRepay * 12;
-  const years = [];
-  let accum = 0;
-  const loanEnds = loanEndYear - thisYear;
-  while (balance > 0 && years.length <= loanEnds && balance >= yearlyRepay) {
-    const interestGenerated = balance * interest;
-
-    balance = balance + interestGenerated - yearlyRepay;
-    years.push({
-      balance,
-      interest,
-      interestGenerated,
-      yearlyRepay,
-      accum: (accum += yearlyRepay),
-    });
-  }
+  const loanEnds = loanWrittenOffYear - thisYear;
+  const years = calculateLoan({ balance, loanEnds, yearlyRepay, interest });
 
   return {
     balance,
@@ -56,10 +43,28 @@ export const calculate = ({
       loanEndYear:
         balance < yearlyRepay
           ? years.length + new Date().getFullYear()
-          : loanEndYear,
+          : loanWrittenOffYear,
       loanDuration: balance < yearlyRepay ? years.length : loanEnds,
     },
   };
+};
+
+const calculateLoan = ({ balance, loanEnds, yearlyRepay, interest }: any) => {
+  const years = [];
+  let accum = 0;
+  while (balance > 0 && years.length <= loanEnds && balance >= yearlyRepay) {
+    const interestGenerated = balance * interest;
+
+    balance = balance + interestGenerated - yearlyRepay;
+    years.push({
+      balance,
+      interest,
+      interestGenerated,
+      yearlyRepay,
+      accum: (accum += yearlyRepay),
+    });
+  }
+  return years;
 };
 
 export const formatCurrency = (value: number) => {
