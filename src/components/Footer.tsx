@@ -37,7 +37,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
+        <hr className="my-6 sm:mx-auto border-white lg:my-8" />
         <span className="block text-sm sm:text-center text-white">
           © {new Date().getFullYear()}{" "}
           <a href="https://flowbite.com/" className="hover:underline">

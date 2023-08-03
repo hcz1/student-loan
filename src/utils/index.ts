@@ -26,7 +26,20 @@ export const calculate = ({
       : 0;
   const yearlyRepay = monthlyRepay * 12;
   const loanEnds = loanWrittenOffYear - thisYear;
-  const years = calculateLoan({ balance, loanEnds, yearlyRepay, interest });
+  const loan = calculateLoan({
+    balance,
+    loanEnds,
+    yearlyRepay,
+    interest,
+    loanWrittenOffYear,
+  });
+  const loan100OverPay = calculateLoan({
+    balance: originalBalance,
+    loanEnds,
+    yearlyRepay: yearlyRepay + 100 * 12,
+    interest,
+    loanWrittenOffYear,
+  });
 
   return {
     balance,
@@ -36,26 +49,28 @@ export const calculate = ({
     monthly: monthlyRepay,
     yearly: yearlyRepay,
     weekly: monthlyRepay / 4,
-    loan: {
-      years,
-      isPaidOff: balance < yearlyRepay,
-      totalPaid: years.reduce((acc, curr) => acc + curr.yearlyRepay, 0),
-      loanEndYear:
-        balance < yearlyRepay
-          ? years.length + new Date().getFullYear()
-          : loanWrittenOffYear,
-      loanDuration: balance < yearlyRepay ? years.length : loanEnds,
-    },
+    loan,
+    loan100OverPay,
   };
 };
 
-const calculateLoan = ({ balance, loanEnds, yearlyRepay, interest }: any) => {
+const calculateLoan = ({
+  balance,
+  loanEnds,
+  yearlyRepay,
+  interest,
+  loanWrittenOffYear,
+}: any) => {
   const years = [];
   let accum = 0;
-  while (balance > 0 && years.length <= loanEnds && balance >= yearlyRepay) {
+  while (balance > 0 && years.length <= loanEnds) {
     const interestGenerated = balance * interest;
-
-    balance = balance + interestGenerated - yearlyRepay;
+    const newBalance = balance + interestGenerated;
+    balance = newBalance - yearlyRepay;
+    if (balance < 0) {
+      yearlyRepay = newBalance;
+      balance = 0;
+    }
     years.push({
       balance,
       interest,
@@ -64,7 +79,16 @@ const calculateLoan = ({ balance, loanEnds, yearlyRepay, interest }: any) => {
       accum: (accum += yearlyRepay),
     });
   }
-  return years;
+  return {
+    years,
+    isPaidOff: balance < yearlyRepay,
+    totalPaid: years.reduce((acc, curr) => acc + curr.yearlyRepay, 0),
+    loanEndYear:
+      balance < yearlyRepay
+        ? years.length + new Date().getFullYear()
+        : loanWrittenOffYear,
+    loanDuration: balance < yearlyRepay ? years.length - 1 : loanEnds,
+  };
 };
 
 export const formatCurrency = (value: number) => {

@@ -9,15 +9,17 @@ export type Calculate = {
   weekly: number;
   hasCalculated: boolean;
   type: RepayKey;
-  loan: {
-    years: Year[];
-    isPaidOff: boolean;
-    totalPaid: number;
-    loanEndYear: number;
-    loanDuration: number;
-  };
+  loan: Loan;
+  loan100OverPay: Loan;
 };
 
+type Loan = {
+  years: Year[];
+  isPaidOff: boolean;
+  totalPaid: number;
+  loanEndYear: number;
+  loanDuration: number;
+};
 type Year = {
   balance: number;
   interest: number;

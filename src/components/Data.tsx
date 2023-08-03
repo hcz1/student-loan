@@ -54,9 +54,13 @@ const Left = ({
   yearly,
   weekly,
   loan: { years, totalPaid, isPaidOff, loanEndYear, loanDuration },
+  loan100OverPay: { years: years100, totalPaid: totalPaid100 },
 }: Calculate) => {
   const difference = totalPaid - originalBalance;
   const percentage = (Math.abs(difference / originalBalance) * 100).toFixed(2);
+  const paidMore = originalBalance < totalPaid;
+
+  const does100SaveMoney = totalPaid100 < totalPaid;
   return (
     <div className="w-full md:w-1/2 px-4 flex flex-col gap-2 text-center">
       <div>
@@ -87,7 +91,7 @@ const Left = ({
           amount={
             <span>
               Your loan will be {!isPaidOff ? "written" : "paid"} off in{" "}
-              <b>{loanEndYear}</b>
+              <b>{loanEndYear - 1}</b>
             </span>
           }
         />
@@ -120,23 +124,42 @@ const Left = ({
         <Tag
           amount={
             <>
-              {isPaidOff && (
+              {(isPaidOff || paidMore) && (
                 <>
-                  From the original <b>{formatCurrency(originalBalance)}</b> you
-                  paid an extra
-                  <br /> <b>{formatCurrency(difference)}</b>
-                  <b>({percentage}%) </b>
-                  in interest
+                  You paid <b>{formatCurrency(difference)}</b> more than the
+                  current balance of <b>{formatCurrency(originalBalance)}</b>
                 </>
               )}
-              {!isPaidOff && (
+              {!isPaidOff && !paidMore && (
                 <>
-                  From the original <b>{formatCurrency(originalBalance)}</b> you
-                  paid <b>{formatCurrency(Math.abs(totalPaid))}</b>
-                  <br /> <b>{percentage}%</b> less then you borrowed
+                  You have paid back only <b>{formatCurrency(totalPaid)}</b> out
+                  of the <b>{formatCurrency(originalBalance)}</b> borrowed,
+                  resulting in a deficit of{" "}
+                  <b>{formatCurrency(Math.abs(difference))}</b> compared to the
+                  initial loan amount
                 </>
               )}
             </>
+          }
+        />
+      </div>
+      <div>
+        <Tag
+          amount={
+            does100SaveMoney ? (
+              <>
+                If you paid <b>£100</b> extra a month youd pay{" "}
+                <b>{formatCurrency(totalPaid100)}</b> saving you{" "}
+                <b>{formatCurrency(totalPaid - totalPaid100)}</b> over an extra{" "}
+                <b>{years.length - years100.length}</b> years
+              </>
+            ) : (
+              <>
+                If you paid <b>£100</b> extra a month youd pay{" "}
+                <b>{formatCurrency(totalPaid100)}</b> more costing you you{" "}
+                <b>{formatCurrency(totalPaid100 - totalPaid)}</b>
+              </>
+            )
           }
         />
       </div>
@@ -150,8 +173,18 @@ const Left = ({
                   x: (new Date().getFullYear() + i).toString(),
                 })),
                 label: "Balance",
+                backgroundColor: "#10b981",
+                borderColor: "#10b981",
+                tension: 0.1,
+              },
+              {
+                data: years100.map((year, i) => ({
+                  y: year.balance,
+                  x: (new Date().getFullYear() + i).toString(),
+                })),
+                label: "Balance (£100 extra)",
                 backgroundColor: "#fff",
-                borderColor: "#fff",
+                borderColor: "#10b981",
                 tension: 0.1,
               },
               {
@@ -160,8 +193,18 @@ const Left = ({
                   x: (new Date().getFullYear() + i).toString(),
                 })),
                 label: "Accumulated Payment",
-                backgroundColor: "#10b981",
-                borderColor: "#10b981",
+                backgroundColor: "#0284c7",
+                borderColor: "#0284c7",
+                tension: 0.1,
+              },
+              {
+                data: years100.map(({ accum }, i) => ({
+                  y: accum,
+                  x: (new Date().getFullYear() + i).toString(),
+                })),
+                label: "Accumulated Payment (£100 extra)",
+                backgroundColor: "#fff",
+                borderColor: "#0284c7",
                 tension: 0.1,
               },
             ],
