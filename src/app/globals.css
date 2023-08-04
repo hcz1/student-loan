@@ -28,3 +28,6 @@ section {
   display: flex;
   align-items: center;
 }
+section:nth-child(even) {
+  background-color: white;
+}
