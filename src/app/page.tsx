@@ -21,6 +21,14 @@ export default function Home() {
       loanEndYear: 0,
       loanDuration: 0,
     },
+    endYear: 0,
+    loan100OverPay: {
+      years: [],
+      isPaidOff: false,
+      totalPaid: 0,
+      loanEndYear: 0,
+      loanDuration: 0,
+    },
   });
   return (
     <>
