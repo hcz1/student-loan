@@ -10,8 +10,8 @@ import {
   useState,
 } from "react";
 import { useFormik } from "formik";
-import { calculate, classNames } from "@/utils";
-import { RepayKey } from "@/utils/const";
+import { calculate, classNames, formatCurrency } from "@/utils";
+import { REPAY, RepayKey } from "@/utils/const";
 import LoanTypeRadio from "./LoanType";
 import { CurrencyPoundIcon } from "@heroicons/react/24/outline";
 
@@ -61,6 +61,7 @@ export default function Form({ onSubmit }: FormProps) {
       }
     },
   });
+  const loans = REPAY[2023];
   return (
     <form
       className="w-full flex flex-col gap-2 min-h-[462px]"
@@ -73,24 +74,54 @@ export default function Form({ onSubmit }: FormProps) {
           setIsAssumptions((prev) => !prev);
         }}
       >
-        Change Assumptions
+        {isAssumptions ? "Close" : "See"} Assumptions
       </button>
       {isAssumptions ? (
         <>
           <FormLine>
             {/* Balance */}
             <div className="w-full px-3">
-              <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
-              <Input
-                onChange={formik.handleChange}
-                id={"balance"}
-                name={"balance"}
-                error={!!formik.errors.balance}
-                withIcon={
-                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
-                }
-              />
-              <ErrorLine text={formik.errors.balance} />
+              <div>
+                <h3 className="block uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
+                  Interest Rates - 2023 -{" "}
+                  <a
+                    href="https://www.gov.uk/repaying-your-student-loan/what-you-pay"
+                    target="_blank"
+                  >
+                    Gov Link
+                  </a>
+                </h3>
+                <p>
+                  Interest rates and repyment thresholds for each plan type, we
+                  assume the same interest rate for the entirity of the loan:
+                </p>
+                {Object.keys(loans).map((key, i) => {
+                  const _key =
+                    key === "6" ? "Postgraduate Loan" : "Plan " + key;
+                  const { interest, yearlyThreashold, percentage } =
+                    loans[key as RepayKey];
+                  return (
+                    <div key={i}>
+                      <h3 className="block underline uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
+                        {_key}
+                      </h3>
+                      <p key={i}>
+                        <b>{interest * 100}%</b> interest and a yearly payment
+                        threshold of <b>{formatCurrency(yearlyThreashold)}</b>{" "}
+                        where you pay <b>{percentage * 100}%</b> over this
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              <h3 className="block underline uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
+                Salary
+              </h3>
+              <p>
+                We assume the same salary for the entirity of the loan, soon
+                there will be a feature to change this to a percentage yearly
+                growth.
+              </p>
             </div>
           </FormLine>
         </>

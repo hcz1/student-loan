@@ -8,6 +8,7 @@ export type Calculate = {
   yearly: number;
   weekly: number;
   hasCalculated: boolean;
+  endYear: number;
   type: RepayKey;
   loan: Loan;
   loan100OverPay: Loan;

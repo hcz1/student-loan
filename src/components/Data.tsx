@@ -5,6 +5,7 @@ import Chart from "./Chart";
 import { Calculate } from "@/types";
 import { ReactNode } from "react";
 import PieChart from "./PieChart";
+import DataTable from "./Table";
 
 export default function Data(props: any) {
   return (
@@ -25,14 +26,13 @@ export default function Data(props: any) {
   );
 }
 
-const Right = ({
-  originalBalance,
-  loan: { years, totalPaid, isPaidOff, loanEndYear, loanDuration },
-}: any) => {
+const Right = (props: Calculate) => {
+  const {} = props;
   return (
     <div className="w-full md:md:w-1/2 px-4">
-      <div className="w-full h-full flex flex-col justify-center p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-gray-600">
-        <PieChart
+      <div className="w-full flex flex-col justify-center p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-gray-600">
+        <DataTable {...props} />
+        {/* <PieChart
           data={{
             labels: ["Total Paid", "Original Balance"],
             datasets: [
@@ -43,7 +43,7 @@ const Right = ({
               },
             ],
           }}
-        />
+        /> */}
       </div>
     </div>
   );
@@ -150,8 +150,8 @@ const Left = ({
               <>
                 If you paid <b>£100</b> extra a month youd pay{" "}
                 <b>{formatCurrency(totalPaid100)}</b> saving you{" "}
-                <b>{formatCurrency(totalPaid - totalPaid100)}</b> over an extra{" "}
-                <b>{years.length - years100.length}</b> years
+                <b>{formatCurrency(totalPaid - totalPaid100)}</b> and finish
+                paying <b>{years.length - years100.length} years</b> quicker
               </>
             ) : (
               <>
@@ -163,7 +163,7 @@ const Left = ({
           }
         />
       </div>
-      <div className="w-full h-full p-4 shadow-xl rounded-lg bg-gray-600 sm:mb-2">
+      <div className="w-full p-4 shadow-xl rounded-lg bg-gray-600 sm:mb-2">
         <Chart
           data={{
             datasets: [
