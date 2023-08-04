@@ -1,4 +1,5 @@
 "use client";
+import { About } from "@/components/About";
 import Data from "@/components/Data";
 import Hero from "@/components/Hero";
 import { Calculate } from "@/types";
@@ -38,6 +39,7 @@ export default function Home() {
         }}
       />
       {state.hasCalculated && <Data {...state} />}
+      <About />
     </>
   );
 }
