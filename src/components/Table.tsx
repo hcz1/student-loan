@@ -13,7 +13,7 @@ const DataTable = ({
   const { isPaidOff, loanDuration, loanEndYear, totalPaid, years } = loan;
   const { interest } = REPAY[2023][type as RepayKey];
   return (
-    <div className="overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto shadow-md ">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           Your Loan
@@ -35,6 +35,7 @@ const DataTable = ({
             <TableHeadRow label="Total Debt" />
             <TableHeadRow label="Interest Accrued" />
             <TableHeadRow label="Yearly Payment" />
+            <TableHeadRow label="Accumulated" />
             {/* <th scope="col" className="px-6 py-3">
               <span className="sr-only">Edit</span>
             </th> */}
@@ -55,6 +56,7 @@ const DataTable = ({
                   interestAccrued={formatCurrency(interestGenerated)}
                   totalDebt={formatCurrency(balance)}
                   yearlyPayment={formatCurrency(yearlyRepay)}
+                  accumulatedPayment={formatCurrency(accum)}
                 />
               );
             }
@@ -79,12 +81,14 @@ function Row({
   totalDebt,
   interestAccrued,
   yearlyPayment,
+  accumulatedPayment,
 }: {
   className?: string;
   year?: number;
   totalDebt?: string;
   interestAccrued?: string;
   yearlyPayment?: string;
+  accumulatedPayment?: string;
 }) {
   return (
     <tr className={`bg-white dark:bg-gray-800 ${className}`}>
@@ -97,6 +101,7 @@ function Row({
       <td className="px-6 py-4">{totalDebt}</td>
       <td className="px-6 py-4">{interestAccrued}</td>
       <td className="px-6 py-4">{yearlyPayment}</td>
+      <td className="px-6 py-4">{accumulatedPayment}</td>
       {/* <td className="px-6 py-4 text-right">
         <a
           href="#"

@@ -3,15 +3,21 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { AcedemicCap } from "./Icons";
 import { classNames } from "@/utils";
+import { useState } from "react";
 
 const navigation = [
-  { name: "Calculator", href: "#results", current: true },
-  // { name: "Team", href: "#", current: false },
+  { name: "Calculator", href: "#hero", current: true },
+  { name: "About", href: "#about", current: false },
   // { name: "Projects", href: "#", current: false },
   // { name: "Calendar", href: "#", current: false },
 ];
 
 export default function Navbar() {
+  const [state, setState] = useState({
+    name: "Calculator",
+    href: "#hero",
+    current: true,
+  });
   return (
     <Disclosure as="nav" className="fixed w-full bg-gray-600">
       {({ open }) => (
@@ -41,13 +47,16 @@ export default function Navbar() {
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <a
+                        onClick={() => {
+                          setState(item);
+                        }}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
+                          item.href === state.href
+                            ? "bg-gray-900 text-white shadow-xl"
                             : "text-gray-300 hover:bg-gray-600 hover:text-white",
-                          "rounded-lg px-3 py-2 text-sm font-medium shadow-xl"
+                          "rounded-lg px-3 py-2 text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >

@@ -4,8 +4,14 @@ import { formatCurrency } from "@/utils";
 import Chart from "./Chart";
 import { Calculate } from "@/types";
 import { ReactNode } from "react";
-import PieChart from "./PieChart";
+
 import DataTable from "./Table";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+} from "react-device-detect";
 
 export default function Data(props: any) {
   return (
@@ -30,7 +36,7 @@ const Right = (props: Calculate) => {
   const {} = props;
   return (
     <div className="w-full md:md:w-1/2 px-4">
-      <div className="w-full flex flex-col justify-center p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-gray-600">
+      <div className="w-full flex flex-col justify-center p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-gray-600 mt-2 md:mt-0">
         <DataTable {...props} />
         {/* <PieChart
           data={{
@@ -163,54 +169,56 @@ const Left = ({
           }
         />
       </div>
-      <div className="w-full p-4 shadow-xl rounded-lg bg-gray-600 sm:mb-2">
-        <Chart
-          data={{
-            datasets: [
-              {
-                data: years.map((year, i) => ({
-                  y: year.balance,
-                  x: (new Date().getFullYear() + i).toString(),
-                })),
-                label: "Balance",
-                backgroundColor: "#10b981",
-                borderColor: "#10b981",
-                tension: 0.1,
-              },
-              {
-                data: years100.map((year, i) => ({
-                  y: year.balance,
-                  x: (new Date().getFullYear() + i).toString(),
-                })),
-                label: "Balance (£100 extra)",
-                backgroundColor: "#fff",
-                borderColor: "#10b981",
-                tension: 0.1,
-              },
-              {
-                data: years.map(({ accum }, i) => ({
-                  y: accum,
-                  x: (new Date().getFullYear() + i).toString(),
-                })),
-                label: "Accumulated Payment",
-                backgroundColor: "#0284c7",
-                borderColor: "#0284c7",
-                tension: 0.1,
-              },
-              {
-                data: years100.map(({ accum }, i) => ({
-                  y: accum,
-                  x: (new Date().getFullYear() + i).toString(),
-                })),
-                label: "Accumulated Payment (£100 extra)",
-                backgroundColor: "#fff",
-                borderColor: "#0284c7",
-                tension: 0.1,
-              },
-            ],
-          }}
-        />
-      </div>
+      <BrowserView>
+        <div className="w-full p-4 shadow-xl rounded-lg bg-gray-600 sm:mb-2">
+          <Chart
+            data={{
+              datasets: [
+                {
+                  data: years.map((year, i) => ({
+                    y: year.balance,
+                    x: (new Date().getFullYear() + i).toString(),
+                  })),
+                  label: "Balance",
+                  backgroundColor: "#10b981",
+                  borderColor: "#10b981",
+                  tension: 0.1,
+                },
+                {
+                  data: years100.map((year, i) => ({
+                    y: year.balance,
+                    x: (new Date().getFullYear() + i).toString(),
+                  })),
+                  label: "Balance (£100 extra)",
+                  backgroundColor: "#fff",
+                  borderColor: "#10b981",
+                  tension: 0.1,
+                },
+                {
+                  data: years.map(({ accum }, i) => ({
+                    y: accum,
+                    x: (new Date().getFullYear() + i).toString(),
+                  })),
+                  label: "Accumulated Payment",
+                  backgroundColor: "#0284c7",
+                  borderColor: "#0284c7",
+                  tension: 0.1,
+                },
+                {
+                  data: years100.map(({ accum }, i) => ({
+                    y: accum,
+                    x: (new Date().getFullYear() + i).toString(),
+                  })),
+                  label: "Accumulated Payment (£100 extra)",
+                  backgroundColor: "#fff",
+                  borderColor: "#0284c7",
+                  tension: 0.1,
+                },
+              ],
+            }}
+          />
+        </div>
+      </BrowserView>
     </div>
   );
 };

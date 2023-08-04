@@ -4,7 +4,7 @@ import { InformationCircle } from "./Icons";
 
 export default function Hero({ onSubmit }: { onSubmit: any }) {
   return (
-    <section className="md:pb-28 pt-28">
+    <section className="md:pb-28 pt-28" id="hero">
       <div className="container px-4 mx-auto pb-10 md:pb-0">
         <div className="flex flex-wrap xl:items-center -mx-4">
           <Left />
