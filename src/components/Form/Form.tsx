@@ -213,7 +213,7 @@ export default function Form({ onSubmit }: FormProps) {
                 id={"duration"}
                 name={"duration"}
                 error={!!formik.errors.duration && formik.touched.duration}
-                min={3}
+                min={1}
                 max={7}
               />
               <ErrorLine
