@@ -31,3 +31,7 @@ section {
 section:nth-child(even) {
   background-color: white;
 }
+
+nav {
+  z-index: 100;
+}
