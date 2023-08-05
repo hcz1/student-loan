@@ -2,6 +2,8 @@ import Layout from "@/components/Layout";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,6 +47,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-6J9K1SEEFM" />
+      {/* <!-- Google tag (gtag.js) --> */}
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-6J9K1SEEFM');
+        `}
+      </Script>
       <body className={inter.className}>
         <Layout>{children}</Layout>
       </body>
