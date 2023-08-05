@@ -154,15 +154,15 @@ const Left = ({
           amount={
             does100SaveMoney ? (
               <>
-                If you paid <b>£100</b> extra a month youd pay{" "}
+                If you paid <b>£100</b> extra a month you&apos;d pay{" "}
                 <b>{formatCurrency(totalPaid100)}</b> saving you{" "}
                 <b>{formatCurrency(totalPaid - totalPaid100)}</b> and finish
                 paying <b>{years.length - years100.length} years</b> quicker
               </>
             ) : (
               <>
-                If you paid <b>£100</b> extra a month youd pay{" "}
-                <b>{formatCurrency(totalPaid100)}</b> more costing you you{" "}
+                If you paid <b>£100</b> extra a month you&apos;d pay{" "}
+                <b>{formatCurrency(totalPaid100)}</b> more costing you{" "}
                 <b>{formatCurrency(totalPaid100 - totalPaid)}</b>
               </>
             )

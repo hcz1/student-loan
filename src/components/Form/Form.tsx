@@ -170,7 +170,9 @@ export default function Form({ onSubmit }: FormProps) {
           <FormLine>
             {/* Year */}
             <div className="w-1/2 px-3">
-              <InputLabel htmlFor="year_started">Year Started</InputLabel>
+              <InputLabel htmlFor="year_started">
+                Initial year of the course
+              </InputLabel>
               <Input
                 onBlur={formik.handleBlur}
                 placeholder="2015"
