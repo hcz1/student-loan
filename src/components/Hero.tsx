@@ -18,7 +18,7 @@ export default function Hero({ onSubmit }: { onSubmit: any }) {
 const Left = () => {
   return (
     <div className="w-full md:w-1/2 px-4 mb-8 md:mb-0">
-      <h1 className="mb-6 text-5xl md:leading-tight font-bold tracking-tight text-center md:text-left">
+      <h1 className="mb-6 text-5xl  font-bold  text-center md:text-left">
         Calculate your student loan repayment
       </h1>
       <p className="mb-8 text-lg md:text-xl font-medium">

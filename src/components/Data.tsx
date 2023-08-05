@@ -6,12 +6,7 @@ import { Calculate } from "@/types";
 import { ReactNode } from "react";
 
 import DataTable from "./Table";
-import {
-  BrowserView,
-  MobileView,
-  isBrowser,
-  isMobile,
-} from "react-device-detect";
+import { BrowserView } from "react-device-detect";
 
 export default function Data(props: any) {
   return (

@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { AcedemicCap } from "./Icons";
 import { classNames } from "@/utils";
 import { useState } from "react";
+import { CONFIG } from "@/utils/const";
 
 const navigation = [
   { name: "Calculator", href: "#hero", current: true },
@@ -58,7 +59,9 @@ export default function Navbar() {
                             : "text-gray-300 hover:bg-gray-600 hover:text-white",
                           "rounded-lg px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={
+                          item.href === state.href ? "page" : undefined
+                        }
                       >
                         {item.name}
                       </a>
@@ -67,16 +70,12 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a
-                  href="https://bmc.link/hczdev"
-                  rel="noopener"
-                  target="_blank"
-                >
+                <a href={CONFIG.BMC_LINK} rel="noopener" target="_blank">
                   <button
                     className="shadow-xl bg-gray-900 text-white rounded-lg px-3 py-2 text-sm font-medium"
                     aria-hidden="true"
                   >
-                    Buy me a coffee
+                    {CONFIG.BMC_TEXT}
                   </button>
                 </a>
               </div>
@@ -92,12 +91,12 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
+                    item.href === state.href
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-600 hover:text-white",
                     "block rounded-lg px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
+                  aria-current={item.href === state.href ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>

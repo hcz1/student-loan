@@ -11,9 +11,11 @@ import {
 } from "react";
 import { useFormik } from "formik";
 import { calculate, classNames, formatCurrency } from "@/utils";
-import { REPAY, RepayKey } from "@/utils/const";
+import { CONFIG, REPAY, RepayKey } from "@/utils/const";
 import LoanTypeRadio from "./LoanType";
 import { CurrencyPoundIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from "flowbite-react";
+import { InformationCircle } from "../Icons";
 
 const schema = Yup.object().shape({
   balance: Yup.number()
@@ -42,7 +44,7 @@ export default function Form({ onSubmit }: FormProps) {
       salary: undefined,
       type: "1",
       year_started: 2012,
-      duration: undefined,
+      duration: 3,
     },
     validationSchema: schema,
     validateOnMount: false,
@@ -84,10 +86,7 @@ export default function Form({ onSubmit }: FormProps) {
               <div>
                 <h3 className="block uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
                   Interest Rates - 2023 -{" "}
-                  <a
-                    href="https://www.gov.uk/repaying-your-student-loan/what-you-pay"
-                    target="_blank"
-                  >
+                  <a href={CONFIG.SLC_REPAY_LINK} target="_blank">
                     Gov Link
                   </a>
                 </h3>
@@ -130,7 +129,12 @@ export default function Form({ onSubmit }: FormProps) {
           <FormLine>
             {/* Balance */}
             <div className="w-full px-3">
-              <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
+              <InputLabel
+                toolTipContent={CONFIG.INITAL_BALANCE_TOOLTIP}
+                htmlFor="balance"
+              >
+                {CONFIG.INITAL_BALANCE_LABEL}
+              </InputLabel>
               <Input
                 onBlur={formik.handleBlur}
                 step=".01"
@@ -150,7 +154,13 @@ export default function Form({ onSubmit }: FormProps) {
           <FormLine>
             {/* Salary */}
             <div className="w-full px-3">
-              <InputLabel htmlFor="salary">Gross Salary</InputLabel>
+              <InputLabel
+                toolTipContent={CONFIG.SALARY_TOOLTIP}
+                htmlFor="salary"
+              >
+                {CONFIG.SALARY_LABEL}
+              </InputLabel>
+
               <Input
                 onBlur={formik.handleBlur}
                 step=".01"
@@ -167,11 +177,11 @@ export default function Form({ onSubmit }: FormProps) {
               />
             </div>
           </FormLine>
-          <FormLine>
+          <FormLine className="items-end">
             {/* Year */}
             <div className="w-1/2 px-3">
               <InputLabel htmlFor="year_started">
-                Initial year of the course
+                {CONFIG.INITAL_YEAR_LABEL}
               </InputLabel>
               <Input
                 onBlur={formik.handleBlur}
@@ -207,7 +217,9 @@ export default function Form({ onSubmit }: FormProps) {
             </div>
             {/* Duration */}
             <div className="w-1/2 px-3">
-              <InputLabel htmlFor="duration">Course Duration</InputLabel>
+              <InputLabel htmlFor="duration">
+                {CONFIG.COURSE_DURATION_LABEL}
+              </InputLabel>
               <Input
                 onBlur={formik.handleBlur}
                 placeholder="3"
@@ -215,6 +227,7 @@ export default function Form({ onSubmit }: FormProps) {
                 id={"duration"}
                 name={"duration"}
                 error={!!formik.errors.duration && formik.touched.duration}
+                value={formik.values.duration}
                 min={1}
                 max={7}
               />
@@ -270,15 +283,25 @@ const SubmitButton = ({
 };
 const InputLabel = ({
   htmlFor,
+  toolTipContent,
   children,
-}: LabelHTMLAttributes<HTMLLabelElement>) => {
+  ...rest
+}: LabelHTMLAttributes<HTMLLabelElement> & { toolTipContent?: ReactNode }) => {
   return (
-    <label
-      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-      htmlFor={htmlFor}
-    >
-      {children}
-    </label>
+    <div className="flex items-center gap-1 mb-2">
+      <label
+        className="block uppercase tracking-wide text-gray-700 text-xs font-bold"
+        htmlFor={htmlFor}
+        {...rest}
+      >
+        {children}
+      </label>
+      {!!toolTipContent && (
+        <Tooltip id={"tooltip-" + htmlFor} content={toolTipContent}>
+          <InformationCircle className="h-5" />
+        </Tooltip>
+      )}
+    </div>
   );
 };
 const Input = ({
@@ -309,6 +332,9 @@ const ErrorLine = ({ text }: { text?: string }) => {
   return <p className="h-[16px] text-red-500 text-xs italic">{text}</p>;
 };
 
-const FormLine = ({ children }: PropsWithChildren) => {
-  return <div className="flex flex-wrap -mx-3">{children}</div>;
+const FormLine = ({
+  className,
+  children,
+}: PropsWithChildren<{ className?: string }>) => {
+  return <div className={`flex flex-wrap -mx-3 ${className}`}>{children}</div>;
 };
