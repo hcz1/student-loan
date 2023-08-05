@@ -45,7 +45,7 @@ export default function Form({ onSubmit }: FormProps) {
       duration: undefined,
     },
     validationSchema: schema,
-    validateOnMount: true,
+    validateOnMount: false,
     onSubmit: (values) => {
       const { balance, salary, type, year_started, duration } = values;
       if (onSubmit && balance && salary && type && year_started && duration) {
@@ -132,16 +132,19 @@ export default function Form({ onSubmit }: FormProps) {
             <div className="w-full px-3">
               <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
               <Input
+                onBlur={formik.handleBlur}
                 step=".01"
                 onChange={formik.handleChange}
                 id={"balance"}
                 name={"balance"}
-                error={!!formik.errors.balance}
+                error={!!formik.errors.balance && formik.touched.balance}
                 withIcon={
                   <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
                 }
               />
-              <ErrorLine text={formik.errors.balance} />
+              <ErrorLine
+                text={formik.touched.balance ? formik.errors.balance : ""}
+              />
             </div>
           </FormLine>
           <FormLine>
@@ -149,16 +152,19 @@ export default function Form({ onSubmit }: FormProps) {
             <div className="w-full px-3">
               <InputLabel htmlFor="salary">Gross Salary</InputLabel>
               <Input
+                onBlur={formik.handleBlur}
                 step=".01"
                 onChange={formik.handleChange}
                 id={"salary"}
                 name={"salary"}
-                error={!!formik.errors.salary}
+                error={!!formik.errors.salary && formik.touched.salary}
                 withIcon={
                   <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
                 }
               />
-              <ErrorLine text={formik.errors.salary} />
+              <ErrorLine
+                text={formik.touched.salary ? formik.errors.salary : ""}
+              />
             </div>
           </FormLine>
           <FormLine>
@@ -166,6 +172,7 @@ export default function Form({ onSubmit }: FormProps) {
             <div className="w-1/2 px-3">
               <InputLabel htmlFor="year_started">Year Started</InputLabel>
               <Input
+                onBlur={formik.handleBlur}
                 placeholder="2015"
                 onChange={(e) => {
                   if (
@@ -183,31 +190,41 @@ export default function Form({ onSubmit }: FormProps) {
                 }}
                 id={"year_started"}
                 name={"year_started"}
-                error={!!formik.errors.year_started}
+                error={
+                  !!formik.errors.year_started && formik.touched.year_started
+                }
                 min={2000}
                 max={new Date().getFullYear()}
                 value={formik.values.year_started}
               />
-              <ErrorLine text={formik.errors.year_started} />
+              <ErrorLine
+                text={
+                  formik.touched.year_started ? formik.errors.year_started : ""
+                }
+              />
             </div>
             {/* Duration */}
             <div className="w-1/2 px-3">
               <InputLabel htmlFor="duration">Course Duration</InputLabel>
               <Input
+                onBlur={formik.handleBlur}
                 placeholder="3"
                 onChange={formik.handleChange}
                 id={"duration"}
                 name={"duration"}
-                error={!!formik.errors.duration}
+                error={!!formik.errors.duration && formik.touched.duration}
                 min={3}
                 max={7}
               />
-              <ErrorLine text={formik.errors.duration} />
+              <ErrorLine
+                text={formik.touched.duration ? formik.errors.duration : ""}
+              />
             </div>
           </FormLine>
           <FormLine>
             <div className="w-full px-3">
               <LoanTypeRadio
+                onBlur={formik.handleBlur}
                 checked={formik.values.type}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   formik.setFieldValue("type", e.target.value);

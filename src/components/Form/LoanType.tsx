@@ -7,10 +7,12 @@ export default function LoanTypeRadio({
   checked,
   onChange,
   year,
+  onBlur,
 }: {
   checked: string;
   onChange: any;
   year?: number;
+  onBlur?: any;
 }) {
   const options = [
     {
@@ -98,6 +100,7 @@ export default function LoanTypeRadio({
             <li key={id} className="w-full">
               <div className="flex items-center px-3">
                 <input
+                  onBlur={onBlur}
                   disabled={disabled}
                   id={id}
                   type="radio"

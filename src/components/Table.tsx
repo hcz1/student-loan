@@ -32,10 +32,10 @@ const DataTable = ({
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <TableHeadRow label="Year" />
-            <TableHeadRow label="Total Debt" />
+            <TableHeadRow label="Total Debt EOY" />
             <TableHeadRow label="Interest Accrued" />
             <TableHeadRow label="Yearly Payment" />
-            <TableHeadRow label="Accumulated" />
+            <TableHeadRow label="Accumulated Payment" />
             {/* <th scope="col" className="px-6 py-3">
               <span className="sr-only">Edit</span>
             </th> */}
