@@ -132,6 +132,7 @@ export default function Form({ onSubmit }: FormProps) {
             <div className="w-full px-3">
               <InputLabel htmlFor="balance">Student Loan Balance</InputLabel>
               <Input
+                step=".01"
                 onChange={formik.handleChange}
                 id={"balance"}
                 name={"balance"}
@@ -148,6 +149,7 @@ export default function Form({ onSubmit }: FormProps) {
             <div className="w-full px-3">
               <InputLabel htmlFor="salary">Gross Salary</InputLabel>
               <Input
+                step=".01"
                 onChange={formik.handleChange}
                 id={"salary"}
                 name={"salary"}
