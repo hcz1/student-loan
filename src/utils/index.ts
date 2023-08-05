@@ -13,12 +13,13 @@ export const calculate = ({
   startYear: number;
   duration: number;
 }) => {
+  const { monthlyThreashold, percentage, interest, writtenOff } =
+    REPAY[2023][type];
   const originalBalance = balance;
   const endYear = startYear + duration;
-  const loanWrittenOffYear = endYear + 30;
+  const loanWrittenOffYear = endYear + writtenOff;
   const thisYear = new Date().getFullYear();
 
-  const { monthlyThreashold, percentage, interest } = REPAY[2023][type];
   const monthlySalary = salary / 12;
   const monthlyRepay =
     monthlySalary >= monthlyThreashold
