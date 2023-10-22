@@ -8,22 +8,23 @@ import { Analytics } from "@vercel/analytics/react";
 export default function Layout({ children }: PropsWithChildren) {
   return (
     <>
-      {!!window && window.document.location.hostname !== "localhost" && (
-        <>
-          <Script src="https://www.googletagmanager.com/gtag/js?id=G-6J9K1SEEFM" />
-          {/* <!-- Google tag (gtag.js) --> */}
-          <Script id="google-analytics">
-            {`
+      {typeof window !== "undefined" &&
+        window.document.location.hostname !== "localhost" && (
+          <>
+            <Script src="https://www.googletagmanager.com/gtag/js?id=G-6J9K1SEEFM" />
+            {/* <!-- Google tag (gtag.js) --> */}
+            <Script id="google-analytics">
+              {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
  
           gtag('config', 'G-6J9K1SEEFM');
         `}
-          </Script>
-          <Analytics />
-        </>
-      )}
+            </Script>
+            <Analytics />
+          </>
+        )}
       <Navbar />
       <main>{children}</main>
       <Footer />
