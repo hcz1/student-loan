@@ -1,6 +1,6 @@
 "use client";
 import { About } from "@/components/About";
-import Data from "@/components/Data";
+import Data from "@/components/Data/Data";
 import Hero from "@/components/Hero";
 import { Calculate } from "@/types";
 import { useState } from "react";

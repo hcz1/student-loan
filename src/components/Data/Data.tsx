@@ -1,14 +1,15 @@
 "use client";
 import { twMerge } from "tailwind-merge";
 import { formatCurrency } from "@/utils";
-import Chart from "./Chart";
+import Chart from "../Chart";
 import { Calculate } from "@/types";
 import { ReactNode } from "react";
 
-import DataTable from "./Table";
+import DataTable from "../Table";
 import { BrowserView } from "react-device-detect";
+import Assumptions from "./Assumptions";
 
-export default function Data(props: any) {
+export default function Data(props: Calculate) {
   return (
     <section
       className="py-10 md:py-24 bg-white overflow-hidden flex-col"
@@ -17,7 +18,9 @@ export default function Data(props: any) {
       <h1 className="mb-6 text-5xl leading-tight font-bold tracking-tight text-center md:text-left">
         Results
       </h1>
+
       <div className="container px-4 mx-auto">
+        <Tag className="mb-6" amount={<Assumptions type={props.type} />} />
         <div className="flex flex-wrap -mx-4">
           {props.loan.loanEndYear > 0 && <Left {...props} />}
           <Right {...props} />
@@ -231,7 +234,9 @@ function Tag({
   return (
     <p
       className={twMerge(
-        `bg-gray-600 text-white p-2 flex-1 shadow-xl ${rounded ?? "rounded-lg"}`
+        `bg-gray-600 text-white p-2 flex-1 shadow-xl ${
+          rounded ?? "rounded-lg"
+        } ${className}`
       )}
     >
       {amount}{" "}

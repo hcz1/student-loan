@@ -5,7 +5,7 @@ export const REPAY = {
       monthlyThreashold: 1_834,
       weeklyThreashold: 423,
       percentage: 0.09,
-      interest: 0.06,
+      interest: 0.0625,
       writtenOff: 25,
     },
     "2": {
@@ -13,7 +13,7 @@ export const REPAY = {
       monthlyThreashold: 2_274,
       weeklyThreashold: 524,
       percentage: 0.09,
-      interest: 0.071,
+      interest: 0.073,
       writtenOff: 30,
     },
     "4": {
@@ -21,7 +21,7 @@ export const REPAY = {
       monthlyThreashold: 2_305,
       weeklyThreashold: 532,
       percentage: 0.09,
-      interest: 0.06,
+      interest: 0.0625,
       writtenOff: 30,
     },
     "5": {
@@ -29,7 +29,7 @@ export const REPAY = {
       monthlyThreashold: 2_083,
       weeklyThreashold: 480,
       percentage: 0.09,
-      interest: 0.071,
+      interest: 0.073,
       writtenOff: 40,
     },
     "6": {
@@ -37,7 +37,7 @@ export const REPAY = {
       monthlyThreashold: 1_750,
       weeklyThreashold: 403,
       percentage: 0.06,
-      interest: 0.071,
+      interest: 0.073,
       writtenOff: 30,
     },
   },

@@ -10,8 +10,8 @@ import {
   useState,
 } from "react";
 import { useFormik } from "formik";
-import { calculate, classNames, formatCurrency } from "@/utils";
-import { CONFIG, REPAY, RepayKey } from "@/utils/const";
+import { calculate, classNames } from "@/utils";
+import { CONFIG, RepayKey } from "@/utils/const";
 import LoanTypeRadio from "./LoanType";
 import { CurrencyPoundIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "flowbite-react";
@@ -37,7 +37,6 @@ interface FormProps {
 }
 
 export default function Form({ onSubmit }: FormProps) {
-  const [isAssumptions, setIsAssumptions] = useState(false);
   const formik = useFormik({
     initialValues: {
       balance: undefined,
@@ -63,198 +62,125 @@ export default function Form({ onSubmit }: FormProps) {
       }
     },
   });
-  const loans = REPAY[2023];
   return (
     <form
       className="w-full flex flex-col gap-2 min-h-[462px]"
       onSubmit={formik.handleSubmit}
     >
-      <button
-        type="button"
-        className="inline-block py-3 px-7 w-full text-base text-white font-medium text-center bg-gray-600 hover:bg-gray-400 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 rounded-lg shadow-xl"
-        onClick={() => {
-          setIsAssumptions((prev) => !prev);
-        }}
-      >
-        {isAssumptions ? "Close" : "See"} Assumptions
-      </button>
-      {isAssumptions ? (
-        <>
-          <FormLine>
-            {/* Balance */}
-            <div className="w-full px-3">
-              <div>
-                <h3 className="block uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
-                  Interest Rates - 2023 -{" "}
-                  <a href={CONFIG.SLC_REPAY_LINK} target="_blank">
-                    Gov Link
-                  </a>
-                </h3>
-                <p>
-                  Interest rates and repyment thresholds for each plan type, we
-                  assume the same interest rate for the entirity of the loan:
-                </p>
-                {Object.keys(loans).map((key, i) => {
-                  const _key =
-                    key === "6" ? "Postgraduate Loan" : "Plan " + key;
-                  const { interest, yearlyThreashold, percentage } =
-                    loans[key as RepayKey];
-                  return (
-                    <div key={i}>
-                      <h3 className="block underline uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
-                        {_key}
-                      </h3>
-                      <p key={i}>
-                        <b>{interest * 100}%</b> interest and a yearly payment
-                        threshold of <b>{formatCurrency(yearlyThreashold)}</b>{" "}
-                        where you pay <b>{percentage * 100}%</b> over this
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-              <h3 className="block underline uppercase tracking-wide text-gray-700 text-s font-bold mr-1">
-                Salary
-              </h3>
-              <p>
-                We assume the same salary for the entirity of the loan, soon
-                there will be a feature to change this to a percentage yearly
-                growth.
-              </p>
-            </div>
-          </FormLine>
-        </>
-      ) : (
-        <>
-          <FormLine>
-            {/* Balance */}
-            <div className="w-full px-3">
-              <InputLabel
-                toolTipContent={CONFIG.INITAL_BALANCE_TOOLTIP}
-                htmlFor="balance"
-              >
-                {CONFIG.INITAL_BALANCE_LABEL}
-              </InputLabel>
-              <Input
-                onBlur={formik.handleBlur}
-                step=".01"
-                onChange={formik.handleChange}
-                id={"balance"}
-                name={"balance"}
-                error={!!formik.errors.balance && formik.touched.balance}
-                withIcon={
-                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
-                }
-              />
-              <ErrorLine
-                text={formik.touched.balance ? formik.errors.balance : ""}
-              />
-            </div>
-          </FormLine>
-          <FormLine>
-            {/* Salary */}
-            <div className="w-full px-3">
-              <InputLabel
-                toolTipContent={CONFIG.SALARY_TOOLTIP}
-                htmlFor="salary"
-              >
-                {CONFIG.SALARY_LABEL}
-              </InputLabel>
+      <FormLine>
+        {/* Balance */}
+        <div className="w-full px-3">
+          <InputLabel
+            toolTipContent={CONFIG.INITAL_BALANCE_TOOLTIP}
+            htmlFor="balance"
+          >
+            {CONFIG.INITAL_BALANCE_LABEL}
+          </InputLabel>
+          <Input
+            onBlur={formik.handleBlur}
+            step=".01"
+            onChange={formik.handleChange}
+            id={"balance"}
+            name={"balance"}
+            error={!!formik.errors.balance && formik.touched.balance}
+            withIcon={<CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />}
+          />
+          <ErrorLine
+            text={formik.touched.balance ? formik.errors.balance : ""}
+          />
+        </div>
+      </FormLine>
+      <FormLine>
+        {/* Salary */}
+        <div className="w-full px-3">
+          <InputLabel toolTipContent={CONFIG.SALARY_TOOLTIP} htmlFor="salary">
+            {CONFIG.SALARY_LABEL}
+          </InputLabel>
 
-              <Input
-                onBlur={formik.handleBlur}
-                step=".01"
-                onChange={formik.handleChange}
-                id={"salary"}
-                name={"salary"}
-                error={!!formik.errors.salary && formik.touched.salary}
-                withIcon={
-                  <CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />
-                }
-              />
-              <ErrorLine
-                text={formik.touched.salary ? formik.errors.salary : ""}
-              />
-            </div>
-          </FormLine>
-          <FormLine className="items-end">
-            {/* Year */}
-            <div className="w-1/2 px-3">
-              <InputLabel htmlFor="year_started">
-                {CONFIG.INITAL_YEAR_LABEL}
-              </InputLabel>
-              <Input
-                onBlur={formik.handleBlur}
-                placeholder="2015"
-                onChange={(e) => {
-                  if (
-                    formik.values.type === "1" &&
-                    parseInt(e.target.value) >= 2012
-                  ) {
-                    formik.setFieldValue("type", "2");
-                  } else if (
-                    formik.values.type !== "1" &&
-                    parseInt(e.target.value) < 2012
-                  ) {
-                    formik.setFieldValue("type", "1");
-                  }
-                  formik.handleChange(e);
-                }}
-                id={"year_started"}
-                name={"year_started"}
-                error={
-                  !!formik.errors.year_started && formik.touched.year_started
-                }
-                min={2000}
-                max={new Date().getFullYear()}
-                value={formik.values.year_started}
-              />
-              <ErrorLine
-                text={
-                  formik.touched.year_started ? formik.errors.year_started : ""
-                }
-              />
-            </div>
-            {/* Duration */}
-            <div className="w-1/2 px-3">
-              <InputLabel htmlFor="duration">
-                {CONFIG.COURSE_DURATION_LABEL}
-              </InputLabel>
-              <Input
-                onBlur={formik.handleBlur}
-                placeholder="3"
-                onChange={formik.handleChange}
-                id={"duration"}
-                name={"duration"}
-                error={!!formik.errors.duration && formik.touched.duration}
-                value={formik.values.duration}
-                min={1}
-                max={7}
-              />
-              <ErrorLine
-                text={formik.touched.duration ? formik.errors.duration : ""}
-              />
-            </div>
-          </FormLine>
-          <FormLine>
-            <div className="w-full px-3">
-              <LoanTypeRadio
-                onBlur={formik.handleBlur}
-                checked={formik.values.type}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  formik.setFieldValue("type", e.target.value);
-                }}
-                year={formik.values.year_started}
-              />
-            </div>
-          </FormLine>
-          <FormLine>
-            <div className="w-full px-3">
-              <SubmitButton disabled={!formik.isValid} />
-            </div>
-          </FormLine>
-        </>
-      )}
+          <Input
+            onBlur={formik.handleBlur}
+            step=".01"
+            onChange={formik.handleChange}
+            id={"salary"}
+            name={"salary"}
+            error={!!formik.errors.salary && formik.touched.salary}
+            withIcon={<CurrencyPoundIcon className="absolute w-8 h-8 ml-2" />}
+          />
+          <ErrorLine text={formik.touched.salary ? formik.errors.salary : ""} />
+        </div>
+      </FormLine>
+      <FormLine className="items-end">
+        {/* Year */}
+        <div className="w-1/2 px-3">
+          <InputLabel htmlFor="year_started">
+            {CONFIG.INITAL_YEAR_LABEL}
+          </InputLabel>
+          <Input
+            onBlur={formik.handleBlur}
+            placeholder="2015"
+            onChange={(e) => {
+              if (
+                formik.values.type === "1" &&
+                parseInt(e.target.value) >= 2012
+              ) {
+                formik.setFieldValue("type", "2");
+              } else if (
+                formik.values.type !== "1" &&
+                parseInt(e.target.value) < 2012
+              ) {
+                formik.setFieldValue("type", "1");
+              }
+              formik.handleChange(e);
+            }}
+            id={"year_started"}
+            name={"year_started"}
+            error={!!formik.errors.year_started && formik.touched.year_started}
+            min={2000}
+            max={new Date().getFullYear()}
+            value={formik.values.year_started}
+          />
+          <ErrorLine
+            text={formik.touched.year_started ? formik.errors.year_started : ""}
+          />
+        </div>
+        {/* Duration */}
+        <div className="w-1/2 px-3">
+          <InputLabel htmlFor="duration">
+            {CONFIG.COURSE_DURATION_LABEL}
+          </InputLabel>
+          <Input
+            onBlur={formik.handleBlur}
+            placeholder="3"
+            onChange={formik.handleChange}
+            id={"duration"}
+            name={"duration"}
+            error={!!formik.errors.duration && formik.touched.duration}
+            value={formik.values.duration}
+            min={1}
+            max={7}
+          />
+          <ErrorLine
+            text={formik.touched.duration ? formik.errors.duration : ""}
+          />
+        </div>
+      </FormLine>
+      <FormLine>
+        <div className="w-full px-3">
+          <LoanTypeRadio
+            onBlur={formik.handleBlur}
+            checked={formik.values.type}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              formik.setFieldValue("type", e.target.value);
+            }}
+            year={formik.values.year_started}
+          />
+        </div>
+      </FormLine>
+      <FormLine>
+        <div className="w-full px-3">
+          <SubmitButton disabled={!formik.isValid} />
+        </div>
+      </FormLine>
     </form>
   );
 }

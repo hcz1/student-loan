@@ -1,14 +1,16 @@
 "use client";
+import { useState } from "react";
 import Form from "./Form/Form";
 import { InformationCircle } from "./Icons";
 
 export default function Hero({ onSubmit }: { onSubmit: any }) {
+  const [isAdvanced, setAdvanced] = useState<boolean>(false);
   return (
     <section className="md:pb-28 pt-28" id="hero">
       <div className="container px-4 mx-auto pb-10 md:pb-0">
         <div className="flex flex-wrap xl:items-center -mx-4">
           <Left />
-          <Right onSubmit={onSubmit} />
+          <Right onSubmit={onSubmit} isAdvanced={isAdvanced} />
         </div>
       </div>
     </section>
@@ -45,7 +47,7 @@ const Left = () => {
   );
 };
 
-const Right = ({ onSubmit }: any) => {
+const Right = ({ onSubmit, isAdvanced }: any) => {
   return (
     <div className="w-full md:w-1/2 px-4">
       <div className="w-full p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-white">
