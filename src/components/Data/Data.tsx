@@ -8,8 +8,9 @@ import { ReactNode } from "react";
 import DataTable from "../Table";
 import { BrowserView } from "react-device-detect";
 import Assumptions from "./Assumptions";
+import { useCalculator } from "@/app/store/useCalculator";
 
-export default function Data(props: Calculate) {
+export default function Data() {
   return (
     <section
       className="py-10 md:py-24 bg-white overflow-hidden flex-col"
@@ -20,22 +21,22 @@ export default function Data(props: Calculate) {
       </h1>
 
       <div className="container px-4 mx-auto">
-        <Tag className="mb-6" amount={<Assumptions type={props.type} />} />
+        <Tag className="mb-6" amount={<Assumptions />} />
         <div className="flex flex-wrap -mx-4">
-          {props.loan.loanEndYear > 0 && <Left {...props} />}
-          <Right {...props} />
+          <Left />
+          <Right />
         </div>
       </div>
     </section>
   );
 }
 
-const Right = (props: Calculate) => {
-  const {} = props;
+const Right = () => {
+  const { calculation } = useCalculator((state) => state);
   return (
     <div className="w-full md:md:w-1/2 px-4">
       <div className="w-full flex flex-col justify-center p-4 mb-16 md:mb-0 shadow-xl rounded-lg mb-4 bg-gray-600 mt-2 md:mt-0">
-        <DataTable {...props} />
+        {calculation?.loan && <DataTable />}
         {/* <PieChart
           data={{
             labels: ["Total Paid", "Original Balance"],
@@ -52,19 +53,21 @@ const Right = (props: Calculate) => {
     </div>
   );
 };
-const Left = ({
-  originalBalance,
-  monthly,
-  yearly,
-  weekly,
-  loan: { years, totalPaid, isPaidOff, loanEndYear, loanDuration },
-  loan100OverPay: { years: years100, totalPaid: totalPaid100 },
-}: Calculate) => {
-  const difference = totalPaid - originalBalance;
-  const percentage = (Math.abs(difference / originalBalance) * 100).toFixed(2);
-  const paidMore = originalBalance < totalPaid;
+const Left = () => {
+  const { calculation } = useCalculator((state) => state);
+  const difference = calculation
+    ? calculation.loan.totalPaid - calculation.originalBalance
+    : 0;
+  const percentage = calculation
+    ? (Math.abs(difference / calculation.originalBalance) * 100).toFixed(2)
+    : 0;
+  const paidMore = calculation
+    ? calculation.originalBalance < calculation.loan.totalPaid
+    : false;
 
-  const does100SaveMoney = totalPaid100 < totalPaid;
+  const does100SaveMoney = calculation
+    ? calculation.loan100OverPay.totalPaid < calculation.loan.totalPaid
+    : false;
   return (
     <div className="w-full md:w-1/2 px-4 flex flex-col gap-2 text-center">
       <div>
@@ -73,29 +76,36 @@ const Left = ({
           amount={"This year you will pay"}
         />
         <div className="flex">
-          <Tag
-            rounded="rounded-bl-lg"
-            amount={<b>{formatCurrency(weekly)}</b>}
-            time="per week"
-          />
-          <Tag
-            rounded=""
-            amount={<b>{formatCurrency(monthly)}</b>}
-            time="per month"
-          />
-          <Tag
-            rounded="rounded-br-lg"
-            amount={<b>{formatCurrency(yearly)}</b>}
-            time="per year"
-          />
+          {calculation?.weekly && (
+            <Tag
+              rounded="rounded-bl-lg"
+              amount={<b>{formatCurrency(calculation?.weekly)}</b>}
+              time="per week"
+            />
+          )}
+          {calculation?.monthly && (
+            <Tag
+              rounded=""
+              amount={<b>{formatCurrency(calculation?.monthly)}</b>}
+              time="per month"
+            />
+          )}
+          {calculation?.yearly && (
+            <Tag
+              rounded="rounded-br-lg"
+              amount={<b>{formatCurrency(calculation?.yearly)}</b>}
+              time="per year"
+            />
+          )}
         </div>
       </div>
       <div>
         <Tag
           amount={
             <span>
-              Your loan will be {!isPaidOff ? "written" : "paid"} off in{" "}
-              <b>{loanEndYear - 1}</b>
+              Your loan will be{" "}
+              {!calculation?.loan.isPaidOff ? "written" : "paid"} off in{" "}
+              <b>{calculation?.loan.loanEndYear - 1}</b>
             </span>
           }
         />
@@ -104,41 +114,51 @@ const Left = ({
         <Tag
           amount={
             <span>
-              {isPaidOff
+              {calculation?.loan.isPaidOff
                 ? "You will clear your debt in "
                 : "Your written off loan balance in "}
               <br />
-              <b>{loanDuration} years </b>
+              <b>{calculation?.loan.loanDuration} years </b>
 
-              {!isPaidOff && (
+              {!calculation?.loan.isPaidOff && (
                 <>
                   will be{" "}
-                  <b>{formatCurrency(years[years.length - 1].balance)}</b>
+                  <b>
+                    {formatCurrency(
+                      calculation?.loan.years[
+                        calculation?.loan.years.length - 1
+                      ].balance
+                    )}
+                  </b>
                 </>
               )}
             </span>
           }
         />
-        <Tag
-          time={<b>{formatCurrency(totalPaid)}</b>}
-          amount="Total payments"
-        />
+        {calculation && (
+          <Tag
+            time={<b>{formatCurrency(calculation?.loan.totalPaid)}</b>}
+            amount="Total payments"
+          />
+        )}
       </div>
       <div>
         <Tag
           amount={
             <>
-              {(isPaidOff || paidMore) && (
+              {(calculation?.loan.totalPaid || paidMore) && calculation && (
                 <>
                   You paid <b>{formatCurrency(difference)}</b> more than the
-                  current balance of <b>{formatCurrency(originalBalance)}</b>
+                  current balance of{" "}
+                  <b>{formatCurrency(calculation?.originalBalance)}</b>
                 </>
               )}
-              {!isPaidOff && !paidMore && (
+              {!calculation?.originalBalance && !paidMore && calculation && (
                 <>
-                  You have paid back only <b>{formatCurrency(totalPaid)}</b> out
-                  of the <b>{formatCurrency(originalBalance)}</b> borrowed,
-                  resulting in a deficit of{" "}
+                  You have paid back only{" "}
+                  <b>{formatCurrency(calculation?.loan.totalPaid)}</b> out of
+                  the <b>{formatCurrency(calculation?.originalBalance)}</b>{" "}
+                  borrowed, resulting in a deficit of{" "}
                   <b>{formatCurrency(Math.abs(difference))}</b> compared to the
                   initial loan amount
                 </>
@@ -150,24 +170,44 @@ const Left = ({
       <div>
         <Tag
           amount={
-            does100SaveMoney ? (
+            does100SaveMoney && calculation ? (
               <>
                 If you paid <b>£100</b> extra a month you&apos;d pay{" "}
-                <b>{formatCurrency(totalPaid100)}</b> saving you{" "}
-                <b>{formatCurrency(totalPaid - totalPaid100)}</b> and finish
-                paying <b>{years.length - years100.length} years</b> quicker
+                <b>{formatCurrency(calculation.loan100OverPay.totalPaid)}</b>{" "}
+                saving you{" "}
+                <b>
+                  {formatCurrency(
+                    calculation.loan.totalPaid -
+                      calculation.loan100OverPay.totalPaid
+                  )}
+                </b>{" "}
+                and finish paying{" "}
+                <b>
+                  {calculation.loan.years.length -
+                    calculation.loan100OverPay.years.length}{" "}
+                  years
+                </b>{" "}
+                quicker
+              </>
+            ) : calculation ? (
+              <>
+                If you paid <b>£100</b> extra a month you&apos;d pay{" "}
+                <b>{formatCurrency(calculation.loan100OverPay.totalPaid)}</b>{" "}
+                more costing you{" "}
+                <b>
+                  {formatCurrency(
+                    calculation.loan100OverPay.totalPaid -
+                      calculation.loan.totalPaid
+                  )}
+                </b>
               </>
             ) : (
-              <>
-                If you paid <b>£100</b> extra a month you&apos;d pay{" "}
-                <b>{formatCurrency(totalPaid100)}</b> more costing you{" "}
-                <b>{formatCurrency(totalPaid100 - totalPaid)}</b>
-              </>
+              <></>
             )
           }
         />
       </div>
-      <BrowserView>
+      {/* <BrowserView>
         <div className="w-full p-4 shadow-xl rounded-lg bg-gray-600 sm:mb-2">
           <Chart
             data={{
@@ -216,7 +256,7 @@ const Left = ({
             }}
           />
         </div>
-      </BrowserView>
+      </BrowserView> */}
     </div>
   );
 };

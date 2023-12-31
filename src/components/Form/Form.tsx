@@ -7,15 +7,15 @@ import {
   LabelHTMLAttributes,
   PropsWithChildren,
   ReactNode,
-  useState,
 } from "react";
 import { useFormik } from "formik";
-import { calculate, classNames } from "@/utils";
+import { classNames } from "@/utils";
 import { CONFIG, RepayKey } from "@/utils/const";
 import LoanTypeRadio from "./LoanType";
 import { CurrencyPoundIcon } from "@heroicons/react/24/outline";
 import { Tooltip } from "flowbite-react";
 import { InformationCircle } from "../Icons";
+import { useCalculator } from "@/app/store/useCalculator";
 
 const schema = Yup.object().shape({
   balance: Yup.number()
@@ -28,15 +28,9 @@ const schema = Yup.object().shape({
   year_started: Yup.number().required("Please enter a year"),
   duration: Yup.number().required("Please enter a duration"),
 });
-interface FormProps {
-  onSubmit?: (values: {
-    monthly: number;
-    yearly: number;
-    weekly: number;
-  }) => void;
-}
 
-export default function Form({ onSubmit }: FormProps) {
+export default function Form() {
+  const { handleCalculation } = useCalculator((state) => state);
   const formik = useFormik({
     initialValues: {
       balance: undefined,
@@ -49,16 +43,14 @@ export default function Form({ onSubmit }: FormProps) {
     validateOnMount: false,
     onSubmit: (values) => {
       const { balance, salary, type, year_started, duration } = values;
-      if (onSubmit && balance && salary && type && year_started && duration) {
-        onSubmit(
-          calculate({
-            salary,
-            type: type as RepayKey,
-            balance,
-            startYear: year_started,
-            duration,
-          })
-        );
+      if (balance && salary && type && year_started && duration) {
+        handleCalculation({
+          salary,
+          type: type as RepayKey,
+          balance,
+          startYear: year_started,
+          duration,
+        });
       }
     },
   });

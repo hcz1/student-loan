@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://loantype.co.uk"),
   title: "UK Student Loan Calculator | Calculate Your Repayments Easily",
   description:
     "Estimate your UK student loan repayments effortlessly with our user-friendly Student Loan Calculator. Plan your financial future and stay informed about your repayment obligations. Take control of your student debt today!",

@@ -35,3 +35,7 @@ section:nth-child(even) {
 nav {
   z-index: 100;
 }
+
+a {
+  text-decoration: underline;
+}

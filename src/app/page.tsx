@@ -2,43 +2,14 @@
 import { About } from "@/components/About";
 import Data from "@/components/Data/Data";
 import Hero from "@/components/Hero";
-import { Calculate } from "@/types";
-import { useState } from "react";
+import { useCalculator } from "./store/useCalculator";
 
 export default function Home() {
-  const [state, setState] = useState<Calculate>({
-    balance: 0,
-    salary: 0,
-    type: "1",
-    originalBalance: 0,
-    monthly: 0,
-    yearly: 0,
-    weekly: 0,
-    hasCalculated: false,
-    loan: {
-      years: [],
-      isPaidOff: false,
-      totalPaid: 0,
-      loanEndYear: 0,
-      loanDuration: 0,
-    },
-    endYear: 0,
-    loan100OverPay: {
-      years: [],
-      isPaidOff: false,
-      totalPaid: 0,
-      loanEndYear: 0,
-      loanDuration: 0,
-    },
-  });
+  const { calculation } = useCalculator((state) => state);
   return (
     <>
-      <Hero
-        onSubmit={(values: any) => {
-          setState({ ...values, hasCalculated: true });
-        }}
-      />
-      {state.hasCalculated && <Data {...state} />}
+      <Hero />
+      {calculation && <Data />}
       <About />
     </>
   );

@@ -1,15 +1,12 @@
+import { useCalculator } from "@/app/store/useCalculator";
 import { Calculate } from "@/types";
 import { formatCurrency } from "@/utils";
 import { REPAY, RepayKey } from "@/utils/const";
 
-interface DataTableProps extends Calculate {}
-const DataTable = ({
-  balance,
-  loan,
-  salary,
-  endYear,
-  type,
-}: DataTableProps) => {
+const DataTable = () => {
+  const { calculation } = useCalculator((state) => state);
+  if (!calculation) return null;
+  const { loan, originalBalance, type, balance, salary, endYear } = calculation;
   const { isPaidOff, loanDuration, loanEndYear, totalPaid, years } = loan;
   const { interest } = REPAY[2023][type as RepayKey];
   return (
