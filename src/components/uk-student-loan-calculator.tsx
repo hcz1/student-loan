@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalculatorForm } from "./calculator-form";
 import { ResultsDisplay } from "./results-display";
 import { calculateRepayment } from "@/lib/loan-calculations";
 import type { LoanDetails, CalculationResult } from "@/types/loan";
 import { ResultsTable } from "./results-table";
+import { cn } from "@/lib/utils";
 
 export function UkStudentLoanCalculator() {
   const [calculationResult, setCalculationResult] =
@@ -33,13 +34,18 @@ export function UkStudentLoanCalculator() {
         animate={{ width: "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <div className="flex flex-col lg:flex-row lg:h-full">
+        <div className="w-full flex flex-col lg:flex-row lg:h-full">
           <motion.div
-            className="w-full lg:w-1/2 lg:pr-3"
+            className={cn(
+              "lg:pr-3",
+              isCalculated ? "w-full lg:w-1/2" : "w-full"
+            )}
             // animate={isCalculated ? { width: "50%" } : { width: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <CalculatorForm onCalculate={handleCalculate} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <CalculatorForm onCalculate={handleCalculate} />
+            </Suspense>
           </motion.div>
           <AnimatePresence>
             {isCalculated && calculationResult && (
