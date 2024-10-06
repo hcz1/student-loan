@@ -23,20 +23,20 @@ export function UkStudentLoanCalculator() {
     <div
       className={`p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
         isCalculated ? "h-[calc(100vh-2rem)]" : ""
-      } flex flex-col`}
+      } flex flex-col overflow-y-scroll`}
     >
       <h1 className="text-4xl font-bold mb-6 uppercase">
         UK Student Loan Calculator
       </h1>
       <motion.div
-        className="flex flex-col flex-grow overflow-hidden"
+        className="flex flex-col flex-grow lg:overflow-hidden"
         animate={{ width: "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <div className="flex flex-col lg:flex-row h-full">
+        <div className="flex flex-col lg:flex-row lg:h-full">
           <motion.div
             className="w-full lg:w-1/2 lg:pr-3"
-            animate={isCalculated ? { width: "50%" } : { width: "100%" }}
+            // animate={isCalculated ? { width: "50%" } : { width: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <CalculatorForm onCalculate={handleCalculate} />
