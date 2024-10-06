@@ -11,6 +11,7 @@ export interface ResultRow {
   outstandingAmount: number;
   amountPaid: number;
   interestRate: number;
+  annualInterest: number;
   cumulativeAmountPaid: number;
 }
 

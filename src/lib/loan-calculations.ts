@@ -70,6 +70,7 @@ export function calculateRepayment(
       outstandingAmount: outstandingAmountPennies,
       amountPaid: yearlyPaymentPennies,
       interestRate,
+      annualInterest: interestPennies,
       cumulativeAmountPaid: cumulativeAmountPaidPennies,
     });
 
