@@ -14,7 +14,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
           Yearly Repayments:
         </h2>
-        <p className="text-3xl font-mono">
+        <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency(monthlyRepayment * 100 * 12)}
         </p>
       </div>
@@ -23,7 +23,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
           Monthly Repayment:
         </h2>
-        <p className="text-3xl font-mono">
+        <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency(monthlyRepayment * 100)}
         </p>
       </div>
@@ -32,7 +32,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
           Weekly Repayment:
         </h2>
-        <p className="text-3xl font-mono">
+        <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency((monthlyRepayment * 100) / 4)}
         </p>
       </div>
@@ -41,7 +41,9 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
           Loan Status:
         </h2>
-        <p className="text-xl font-bold font-mono">{payoffInfo}</p>
+        <p className="text-xl font-bold font-mono text-[rgba(0,0,255,1)]">
+          {payoffInfo}
+        </p>
       </div>
     </div>
   );
