@@ -54,16 +54,15 @@ export function calculateRepayment(
   let payoffYear = writeOffYear;
 
   for (let year = currentYear; year <= writeOffYear; year++) {
+    const interestPennies = Math.round(outstandingAmountPennies * interestRate);
+    outstandingAmountPennies += interestPennies;
+
     const yearlyPaymentPennies = Math.min(
       annualRepaymentPennies,
       outstandingAmountPennies
     );
+    outstandingAmountPennies -= yearlyPaymentPennies;
     cumulativeAmountPaidPennies += yearlyPaymentPennies;
-    const interestPennies = Math.round(outstandingAmountPennies * interestRate);
-    outstandingAmountPennies = Math.max(
-      0,
-      outstandingAmountPennies - yearlyPaymentPennies + interestPennies
-    );
 
     results.push({
       year,
