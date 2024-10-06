@@ -1,4 +1,46 @@
 export const REPAY = {
+  2024: {
+    "1": {
+      yearlyThreashold: 24_990,
+      monthlyThreashold: 2083,
+      weeklyThreashold: 480,
+      percentage: 0.09,
+      interest: 0.0625,
+      writtenOff: 25,
+    },
+    "2": {
+      yearlyThreashold: 27_295,
+      monthlyThreashold: 2_274,
+      weeklyThreashold: 524,
+      percentage: 0.09,
+      interest: 0.079,
+      writtenOff: 30,
+    },
+    "4": {
+      yearlyThreashold: 31_395,
+      monthlyThreashold: 2616,
+      weeklyThreashold: 603,
+      percentage: 0.09,
+      interest: 0.0625,
+      writtenOff: 30,
+    },
+    "5": {
+      yearlyThreashold: 25_000,
+      monthlyThreashold: 2_083,
+      weeklyThreashold: 480,
+      percentage: 0.09,
+      interest: 0.079,
+      writtenOff: 40,
+    },
+    "6": {
+      yearlyThreashold: 21_000,
+      monthlyThreashold: 1_750,
+      weeklyThreashold: 403,
+      percentage: 0.06,
+      interest: 0.079,
+      writtenOff: 30,
+    },
+  },
   2023: {
     "1": {
       yearlyThreashold: 22_015,
@@ -43,7 +85,7 @@ export const REPAY = {
   },
 } as const;
 
-export type RepayKey = keyof (typeof REPAY)["2023"];
+export type RepayKey = keyof (typeof REPAY)["2024"];
 const SLC_BALANCE_LINK =
   "https://www.gov.uk/repaying-your-student-loan/what-you-pay";
 export const CONFIG = {

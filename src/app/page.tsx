@@ -1,16 +1,9 @@
-"use client";
-import { About } from "@/components/About";
-import Data from "@/components/Data/Data";
-import Hero from "@/components/Hero";
-import { useCalculator } from "./store/useCalculator";
+import { UkStudentLoanCalculator } from "@/components/uk-student-loan-calculator";
 
 export default function Home() {
-  const { calculation } = useCalculator((state) => state);
   return (
-    <>
-      <Hero />
-      {calculation && <Data />}
-      <About />
-    </>
+    <div className="flex justify-center items-center h-screen">
+      <UkStudentLoanCalculator />
+    </div>
   );
 }
