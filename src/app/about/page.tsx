@@ -1,5 +1,20 @@
 import React from "react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About UK Student Loans",
+  description:
+    "Learn about different UK student loan plans, repayment thresholds, and additional information for student loan repayments in the UK.",
+  keywords: [
+    "UK student loans",
+    "Plan 1",
+    "Plan 2",
+    "Plan 5",
+    "Postgraduate Loans",
+    "loan repayment",
+  ],
+};
 
 const AboutPage: React.FC = () => {
   return (
