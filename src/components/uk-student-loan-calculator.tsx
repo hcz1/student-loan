@@ -8,6 +8,7 @@ import { calculateRepayment } from "@/lib/loan-calculations";
 import type { LoanDetails, CalculationResult } from "@/types/loan";
 import { ResultsTable } from "./results-table";
 import { cn } from "@/lib/utils";
+import { Disclaimer } from "./disclaimer";
 
 export function UkStudentLoanCalculator() {
   const [calculationResult, setCalculationResult] =
@@ -40,11 +41,15 @@ export function UkStudentLoanCalculator() {
               "lg:pr-3",
               isCalculated ? "w-full lg:w-1/2" : "w-full"
             )}
-            // animate={isCalculated ? { width: "50%" } : { width: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <Suspense fallback={<div>Loading...</div>}>
-              <CalculatorForm onCalculate={handleCalculate} />
+              <CalculatorForm
+                className={cn(
+                  isCalculated ? "border-8 border-black p-4" : "border-b-0"
+                )}
+                onCalculate={handleCalculate}
+              />
             </Suspense>
           </motion.div>
           <AnimatePresence>
@@ -74,6 +79,7 @@ export function UkStudentLoanCalculator() {
             </motion.div>
           )}
         </AnimatePresence>
+        <Disclaimer className="my-4" />
       </motion.div>
     </div>
   );

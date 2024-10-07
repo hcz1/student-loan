@@ -13,12 +13,18 @@ import {
 } from "@/components/ui/select";
 import type { LoanDetails } from "@/types/loan";
 import { useSearchParams } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
 
 interface CalculatorFormProps {
+  className?: string;
   onCalculate: (loanDetails: LoanDetails) => void;
 }
 
-export function CalculatorForm({ onCalculate }: CalculatorFormProps) {
+export function CalculatorForm({
+  className,
+  onCalculate,
+}: CalculatorFormProps) {
   const searchParams = useSearchParams();
   const loanAmountParams = searchParams.get("loanAmount");
   const loanTypeParams = searchParams.get("loanType");
@@ -35,6 +41,8 @@ export function CalculatorForm({ onCalculate }: CalculatorFormProps) {
   const [courseDuration, setCourseDuration] = useState(
     courseDurationParams || ""
   );
+  const [interestRate, setInterestRate] = useState(0.7);
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +56,7 @@ export function CalculatorForm({ onCalculate }: CalculatorFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className={cn("space-y-4", className)}>
       <div>
         <Label htmlFor="loanBalance" className="text-lg font-bold">
           Current Loan Balance (£)
@@ -69,15 +77,23 @@ export function CalculatorForm({ onCalculate }: CalculatorFormProps) {
         <Select onValueChange={setLoanType} required value={loanType}>
           <SelectTrigger
             id="loanType"
-            className="mt-1 w-full border-2 border-black text-lg p-2"
+            className="mt-1 w-full border-2 border-black text-lg p-2 bg-white focus:ring-0 focus:ring-offset-0"
           >
             <SelectValue placeholder="Select loan type" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="plan1">Plan 1</SelectItem>
-            <SelectItem value="plan2">Plan 2</SelectItem>
-            <SelectItem value="plan4">Plan 4</SelectItem>
-            <SelectItem value="plan5">Plan 5</SelectItem>
+          <SelectContent className="border-2 border-black">
+            <SelectItem value="plan1" className="text-lg cursor-pointer">
+              Plan 1
+            </SelectItem>
+            <SelectItem value="plan2" className="text-lg cursor-pointer">
+              Plan 2
+            </SelectItem>
+            <SelectItem value="plan4" className="text-lg cursor-pointer">
+              Plan 4
+            </SelectItem>
+            <SelectItem value="plan5" className="text-lg cursor-pointer">
+              Plan 5
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -128,6 +144,39 @@ export function CalculatorForm({ onCalculate }: CalculatorFormProps) {
           </div>
         </div>
       </div>
+
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="advanced-mode"
+          checked={isAdvancedMode}
+          onCheckedChange={setIsAdvancedMode}
+        />
+        <Label htmlFor="advanced-mode" className="text-lg">
+          Advanced Mode
+        </Label>
+      </div>
+
+      {isAdvancedMode && (
+        <>
+          <div>
+            <Label htmlFor="interestRate" className="text-lg font-bold">
+              Interest Rate (%)
+            </Label>
+            <Input
+              id="interestRate"
+              type="number"
+              value={interestRate}
+              onChange={(e) => setInterestRate(Number(e.target.value))}
+              className="mt-1 w-full border-2 border-black text-lg p-2"
+              step="0.1"
+              min="0"
+              max="100"
+            />
+          </div>
+          {/* Add more advanced fields as needed */}
+        </>
+      )}
+
       <Button
         type="submit"
         className="w-full bg-black text-white text-xl font-bold py-3 hover:bg-gray-800"
