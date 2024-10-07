@@ -17,15 +17,15 @@ export function calculateRepayment(
   let writeOffYears = 30;
   let interestRate = 0.03; // Default interest rate, adjust as needed
 
-  if (loanType === "plan1") {
+  if (loanType === "1") {
     thresholdPennies = 2201500;
     writeOffYears = 25;
     interestRate = 0.015; // Example rate for Plan 1
-  } else if (loanType === "plan2") {
+  } else if (loanType === "2") {
     thresholdPennies = 2729500;
     writeOffYears = 30;
     interestRate = 0.07; // Example rate for Plan 2
-  } else if (loanType === "plan4") {
+  } else if (loanType === "4") {
     thresholdPennies = 2766000;
     writeOffYears = 30;
     interestRate = 0.05; // Example rate for Plan 4

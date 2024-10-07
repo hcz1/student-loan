@@ -87,16 +87,16 @@ export function CalculatorForm({
             <SelectValue placeholder="Select loan type" />
           </SelectTrigger>
           <SelectContent className="border-2 border-black">
-            <SelectItem value="plan1" className="text-lg cursor-pointer">
+            <SelectItem value="1" className="text-lg cursor-pointer">
               Plan 1
             </SelectItem>
-            <SelectItem value="plan2" className="text-lg cursor-pointer">
+            <SelectItem value="2" className="text-lg cursor-pointer">
               Plan 2
             </SelectItem>
-            <SelectItem value="plan4" className="text-lg cursor-pointer">
+            <SelectItem value="4" className="text-lg cursor-pointer">
               Plan 4
             </SelectItem>
-            <SelectItem value="plan5" className="text-lg cursor-pointer">
+            <SelectItem value="5" className="text-lg cursor-pointer">
               Plan 5
             </SelectItem>
           </SelectContent>
