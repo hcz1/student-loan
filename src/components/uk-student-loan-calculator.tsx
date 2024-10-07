@@ -23,14 +23,14 @@ export function UkStudentLoanCalculator() {
   return (
     <div
       className={`p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
-        isCalculated ? "h-[calc(100vh-2rem)]" : ""
-      } flex flex-col overflow-y-scroll`}
+        isCalculated ? "flex-grow" : ""
+      } flex flex-col overflow-y-auto`}
     >
       <h1 className="text-4xl font-bold mb-6 uppercase">
         UK Student Loan Calculator
       </h1>
       <motion.div
-        className="flex flex-col flex-grow lg:overflow-hidden"
+        className="flex flex-col flex-grow"
         animate={{ width: "100%" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >

@@ -24,8 +24,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-sans min-h-screen flex flex-col`}
       >
         <Header />
-        <main className="flex-grow flex items-center justify-center">
-          <div className="container mx-auto py-8">{children}</div>
+        <main className="flex-grow flex flex-col mt-16">
+          <div className="container mx-auto flex-grow flex flex-col justify-center">
+            {children}
+          </div>
         </main>
       </body>
     </html>

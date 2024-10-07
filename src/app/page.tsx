@@ -2,7 +2,7 @@ import { UkStudentLoanCalculator } from "@/components/uk-student-loan-calculator
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center h-screen mx-4">
+    <div className="flex-grow flex items-center justify-center p-4">
       <UkStudentLoanCalculator />
     </div>
   );
