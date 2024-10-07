@@ -1,6 +1,7 @@
 import "./globals.css";
 import localFont from "next/font/local";
 import Header from "@/components/header";
+import { Metadata } from "next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,6 +13,16 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+export const metadata: Metadata = {
+  title: "UK Student Loan Repayment Calculator",
+  description:
+    "Calculate your student loan repayments based on your salary with our easy-to-use UK student finance calculator. Covers Plan 1, 2, 4, 5 and postgraduate loans.",
+  keywords:
+    "student loan calculator, UK student loan, repayment calculator, student finance, loan repayment, salary-based calculator",
+  applicationName: "UK Student Loan Repayment Calculator",
+  category: "finance",
+};
 
 export default function RootLayout({
   children,

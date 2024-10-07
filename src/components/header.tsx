@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
@@ -5,8 +6,17 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 bg-white z-10 border-b-4 border-black">
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-16">
-          <Link href="/" className="text-2xl font-bold uppercase">
-            UK Student Loan Calculator
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-2xl font-bold uppercase"
+          >
+            <Image
+              src="/logo.png"
+              alt="UK Student Loan Calculator"
+              width={50}
+              height={50}
+            />
+            <span>UK Student Loan Calculator</span>
           </Link>
           <ul className="flex space-x-4">
             <li>
