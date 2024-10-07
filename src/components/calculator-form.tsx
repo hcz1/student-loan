@@ -59,16 +59,21 @@ export function CalculatorForm({
     <form onSubmit={handleSubmit} className={cn("space-y-4", className)}>
       <div>
         <Label htmlFor="loanBalance" className="text-lg font-bold">
-          Current Loan Balance (£)
+          Current Loan Balance
         </Label>
-        <Input
-          id="loanBalance"
-          type="number"
-          value={loanBalance}
-          onChange={(e) => setLoanBalance(e.target.value)}
-          className="mt-1 w-full border-2 border-black text-lg p-2"
-          required
-        />
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+            £
+          </span>
+          <Input
+            id="loanBalance"
+            type="number"
+            value={loanBalance}
+            onChange={(e) => setLoanBalance(e.target.value)}
+            className="mt-1 w-full border-2 border-black text-lg p-2 pl-8"
+            required
+          />
+        </div>
       </div>
       <div>
         <Label htmlFor="loanType" className="text-lg font-bold">
@@ -99,16 +104,21 @@ export function CalculatorForm({
       </div>
       <div>
         <Label htmlFor="grossSalary" className="text-lg font-bold">
-          Current Gross Salary (£)
+          Current Gross Salary
         </Label>
-        <Input
-          id="grossSalary"
-          type="number"
-          value={grossSalary}
-          onChange={(e) => setGrossSalary(e.target.value)}
-          className="mt-1 w-full border-2 border-black text-lg p-2"
-          required
-        />
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+            £
+          </span>
+          <Input
+            id="grossSalary"
+            type="number"
+            value={grossSalary}
+            onChange={(e) => setGrossSalary(e.target.value)}
+            className="mt-1 w-full border-2 border-black text-lg p-2 pl-8"
+            required
+          />
+        </div>
       </div>
       <div>
         <Label className="text-lg font-bold">Course Details</Label>
@@ -126,19 +136,19 @@ export function CalculatorForm({
               max={new Date().getFullYear()}
             />
           </div>
-          <div className="flex-1 flex items-center">
+          <div className="flex-1 relative">
             <Input
               id="courseDuration"
               type="number"
               value={courseDuration}
               onChange={(e) => setCourseDuration(e.target.value)}
-              className="w-full border-2 border-black text-lg p-2"
+              className="w-full border-2 border-black text-lg p-2 pr-16"
               placeholder="Duration"
               required
               min={1}
               max={10}
             />
-            <span className="ml-2 text-lg font-bold whitespace-nowrap">
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
               years
             </span>
           </div>
