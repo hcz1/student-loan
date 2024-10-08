@@ -9,7 +9,7 @@ export function calculateRepayment(
     grossSalary,
     courseStartYear,
     courseDuration,
-    interestRate: interestRateParam,
+    // interestRate: interestRateParam,
     salaryIncreasePercentage,
   } = loanDetails;
   const balancePennies = Math.round(loanBalance * 100);
@@ -20,36 +20,40 @@ export function calculateRepayment(
   let writeOffYears = 30;
   let repaymentRate = 0.09; // Default repayment rate
   let interestRate = 0.043; // Default interest rate
+  let interestRateInfo = ""; // Interest rate information text
 
   if (loanType === "1") {
     thresholdPennies = 2499000; // £24,990
     writeOffYears = 25;
     interestRate = 0.043;
     repaymentRate = 0.09;
+    interestRateInfo = "Your interest rate is fixed at 4.3% for Plan 1 loans.";
   } else if (loanType === "2") {
     thresholdPennies = 2729500; // £27,295
     writeOffYears = 30;
     repaymentRate = 0.09;
     // Interest rate will be calculated based on income
+    interestRateInfo =
+      "Your interest rate varies based on your income for Plan 2 loans.";
   } else if (loanType === "4") {
     thresholdPennies = 3139500; // £31,395
     writeOffYears = 30;
     interestRate = 0.043;
     repaymentRate = 0.09;
-  } else if (loanType === "plan5") {
+    interestRateInfo = "Your interest rate is fixed at 4.3% for Plan 4 loans.";
+  } else if (loanType === "5") {
     thresholdPennies = 2500000; // £25,000
     writeOffYears = 40;
     interestRate = 0.043;
     repaymentRate = 0.09;
+    interestRateInfo = "Your interest rate is fixed at 4.3% for Plan 5 loans.";
   } else if (loanType === "postgraduate") {
     thresholdPennies = 2100000; // £21,000
     writeOffYears = 30;
     interestRate = 0.073;
     repaymentRate = 0.06;
-  }
-
-  if (interestRateParam) {
-    interestRate = interestRateParam / 100;
+    interestRateInfo =
+      "Your interest rate is fixed at 7.3% for Postgraduate loans.";
   }
 
   const results: ResultRow[] = [];
@@ -74,15 +78,23 @@ export function calculateRepayment(
       ) {
         // Still studying or before 5 April after course ends
         interestRate = 0.073;
+        interestRateInfo =
+          "While studying, your interest rate is 7.3% for Plan 2 loans.";
       } else {
         const annualSalary = salaryPennies / 100;
         if (annualSalary <= 28470) {
           interestRate = 0.043;
+          interestRateInfo =
+            "Your interest rate is 4.3% for income £28,470 or less under Plan 2 loans.";
         } else if (annualSalary <= 51245) {
           const extraRate = ((annualSalary - 28470) / (51245 - 28470)) * 0.03;
           interestRate = 0.043 + extraRate;
+          const totalInterestRate = (interestRate * 100).toFixed(2);
+          interestRateInfo = `Your interest rate is ${totalInterestRate}% based on your income under Plan 2 loans.`;
         } else {
           interestRate = 0.073;
+          interestRateInfo =
+            "Your interest rate is 7.3% for income above £51,245 under Plan 2 loans.";
         }
       }
     }
@@ -115,7 +127,7 @@ export function calculateRepayment(
       salary: salaryPennies,
     });
 
-    if (outstandingAmountPennies === 0) {
+    if (outstandingAmountPennies <= 0) {
       payoffYear = year;
       break;
     }
@@ -123,17 +135,18 @@ export function calculateRepayment(
 
   const payoffInfo =
     payoffYear < writeOffYear
-      ? `Loan will be paid off in ${payoffYear}`
-      : `Loan will be written off in ${writeOffYear}`;
+      ? `Your loan will be paid off in ${payoffYear}.`
+      : `Your loan will be written off in ${writeOffYear}.`;
 
-  const monthlyRepayment =
-    annualRepaymentPennies > 0
-      ? Math.round(annualRepaymentPennies / 12) / 100
-      : 0;
+  const yearlyRepaymentThisYear = results[0].amountPaid;
+  const monthlyRepaymentThisYear = Math.round(
+    yearlyRepaymentThisYear / 12 / 100
+  );
 
   return {
-    monthlyRepayment,
+    monthlyRepayment: monthlyRepaymentThisYear,
     payoffInfo,
+    interestRateInfo,
     results,
   };
 }

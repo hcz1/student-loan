@@ -4,7 +4,7 @@ export interface LoanDetails {
   grossSalary: number;
   courseStartYear: number;
   courseDuration: number;
-  interestRate: number;
+  //   interestRate?: number;
   salaryIncreasePercentage: number;
 }
 
@@ -22,4 +22,5 @@ export interface CalculationResult {
   monthlyRepayment: number;
   payoffInfo: string;
   results: ResultRow[];
+  interestRateInfo: string;
 }

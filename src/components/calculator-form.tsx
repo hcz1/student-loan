@@ -41,7 +41,7 @@ export function CalculatorForm({
   const [courseDuration, setCourseDuration] = useState(
     courseDurationParams || ""
   );
-  const [interestRate, setInterestRate] = useState(7);
+  //   const [interestRate, setInterestRate] = useState(7);
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
   const [salaryIncreasePercentage, setSalaryIncreasePercentage] = useState(2); // New state for salary increase
 
@@ -53,7 +53,7 @@ export function CalculatorForm({
       grossSalary: parseFloat(grossSalary),
       courseStartYear: parseInt(courseStartYear),
       courseDuration: parseInt(courseDuration),
-      interestRate,
+      //   interestRate,
       salaryIncreasePercentage,
     });
   };
@@ -171,7 +171,7 @@ export function CalculatorForm({
 
       {isAdvancedMode && (
         <div className="flex space-x-2">
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Label htmlFor="interestRate" className="text-lg font-bold">
               Interest Rate
             </Label>
@@ -189,8 +189,8 @@ export function CalculatorForm({
                 %
               </span>
             </div>
-          </div>
-          <div className="flex-1">
+          </div> */}
+          <div className="w-1/2">
             <Label htmlFor="salaryIncrease" className="text-lg font-bold">
               Annual Salary Increase
             </Label>
