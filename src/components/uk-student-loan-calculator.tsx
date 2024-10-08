@@ -9,6 +9,7 @@ import type { LoanDetails, CalculationResult } from "@/types/loan";
 import { ResultsTable } from "./results-table";
 import { cn } from "@/lib/utils";
 import { Disclaimer } from "./disclaimer";
+import { ResultsChart } from "./results-chart";
 
 export function UkStudentLoanCalculator() {
   const [calculationResult, setCalculationResult] =
@@ -70,17 +71,29 @@ export function UkStudentLoanCalculator() {
         </div>
         <AnimatePresence>
           {isCalculated && calculationResult && (
-            <motion.div
-              className="w-full mt-6 flex-grow overflow-hidden"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
-              <ResultsTable result={calculationResult} />
-            </motion.div>
+            <>
+              <motion.div
+                className="w-full mt-6 flex-grow overflow-hidden"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <ResultsTable result={calculationResult} />
+              </motion.div>
+              <motion.div
+                className="w-full mt-6 flex-grow overflow-hidden"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <ResultsChart result={calculationResult} />
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
+
         <Disclaimer className="my-4" />
       </motion.div>
     </div>
