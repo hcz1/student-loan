@@ -4,6 +4,8 @@ export interface LoanDetails {
   grossSalary: number;
   courseStartYear: number;
   courseDuration: number;
+  interestRate: number;
+  salaryIncreasePercentage: number;
 }
 
 export interface ResultRow {
@@ -13,6 +15,7 @@ export interface ResultRow {
   interestRate: number;
   annualInterest: number;
   cumulativeAmountPaid: number;
+  salary: number;
 }
 
 export interface CalculationResult {

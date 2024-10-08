@@ -24,6 +24,7 @@ export function ResultsTable({ result }: ResultsTableProps) {
           <TableHeader className="sticky top-0 bg-white z-10">
             <TableRow>
               <TableHead className="font-bold text-left">Year</TableHead>
+              <TableHead className="font-bold text-right">Salary</TableHead>
               <TableHead className="font-bold text-right">
                 Outstanding Amount
               </TableHead>
@@ -45,6 +46,9 @@ export function ResultsTable({ result }: ResultsTableProps) {
             {results.map((row, index) => (
               <TableRow key={index} className="border-t-2 border-black">
                 <TableCell className="font-mono">{row.year}</TableCell>
+                <TableCell className="font-mono text-right">
+                  {formatCurrency(row.salary)}
+                </TableCell>
                 <TableCell className="font-mono text-right">
                   {formatCurrency(row.outstandingAmount)}
                 </TableCell>

@@ -41,8 +41,9 @@ export function CalculatorForm({
   const [courseDuration, setCourseDuration] = useState(
     courseDurationParams || ""
   );
-  const [interestRate, setInterestRate] = useState(0.7);
+  const [interestRate, setInterestRate] = useState(7);
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
+  const [salaryIncreasePercentage, setSalaryIncreasePercentage] = useState(2); // New state for salary increase
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +53,8 @@ export function CalculatorForm({
       grossSalary: parseFloat(grossSalary),
       courseStartYear: parseInt(courseStartYear),
       courseDuration: parseInt(courseDuration),
+      interestRate,
+      salaryIncreasePercentage,
     });
   };
 
@@ -167,24 +170,49 @@ export function CalculatorForm({
       </div>
 
       {isAdvancedMode && (
-        <>
-          <div>
+        <div className="flex space-x-2">
+          <div className="flex-1">
             <Label htmlFor="interestRate" className="text-lg font-bold">
-              Interest Rate (%)
+              Interest Rate
             </Label>
-            <Input
-              id="interestRate"
-              type="number"
-              value={interestRate}
-              onChange={(e) => setInterestRate(Number(e.target.value))}
-              className="mt-1 w-full border-2 border-black text-lg p-2"
-              step="0.1"
-              min="0"
-              max="100"
-            />
+            <div className="relative">
+              <Input
+                id="interestRate"
+                type="number"
+                value={interestRate}
+                onChange={(e) => setInterestRate(Number(e.target.value))}
+                className="mt-1 w-full border-2 border-black text-lg p-2 pr-8"
+                step="0.1"
+                max="100"
+              />
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+                %
+              </span>
+            </div>
           </div>
-          {/* Add more advanced fields as needed */}
-        </>
+          <div className="flex-1">
+            <Label htmlFor="salaryIncrease" className="text-lg font-bold">
+              Annual Salary Increase
+            </Label>
+            <div className="relative">
+              <Input
+                id="salaryIncrease"
+                type="number"
+                value={salaryIncreasePercentage}
+                onChange={(e) =>
+                  setSalaryIncreasePercentage(Number(e.target.value))
+                }
+                className="mt-1 w-full border-2 border-black text-lg p-2 pr-8"
+                step="0.1"
+                min="0"
+                max="100"
+              />
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+                %
+              </span>
+            </div>
+          </div>
+        </div>
       )}
 
       <Button
