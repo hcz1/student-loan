@@ -18,6 +18,16 @@ export function UkStudentLoanCalculator() {
 
   const handleCalculate = (loanDetails: LoanDetails) => {
     const result = calculateRepayment(loanDetails);
+    // add loanDetails to query params each key is a param
+    const queryParams = new URLSearchParams();
+    Object.entries(loanDetails).forEach(([key, value]) => {
+      queryParams.set(key, value);
+    });
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams.toString()}`
+    );
     setCalculationResult(result);
     setIsCalculated(true);
   };

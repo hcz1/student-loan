@@ -28,7 +28,7 @@ export function CalculatorForm({
   advancedMode,
 }: CalculatorFormProps) {
   const searchParams = useSearchParams();
-  const loanAmountParams = searchParams.get("loanAmount");
+  const loanAmountParams = searchParams.get("loanBalance");
   const loanTypeParams = searchParams.get("loanType");
   const grossSalaryParams = searchParams.get("grossSalary");
   const courseStartYearParams = searchParams.get("courseStartYear");
