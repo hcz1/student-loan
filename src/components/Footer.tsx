@@ -29,7 +29,18 @@ export default function Footer() {
             </ul>
           </nav>
         </div>
-        <div className="mt-8 text-center">
+        <div className="mt-4 text-center">
+          <p className="text-sm mt-2">
+            Made by{" "}
+            <a
+              href="https://twitter.com/hczdev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
+              hczdev
+            </a>
+          </p>
           <p className="text-sm">
             © {new Date().getFullYear()} UK Student Loan Calculator. All rights
             reserved.

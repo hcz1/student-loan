@@ -20,7 +20,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
       </div>
       <div className="mb-4">
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
-          Yearly Repayments :
+          Yearly Repayments (this year):
         </h2>
         <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency(monthlyRepayment * 100 * 12)}
@@ -29,7 +29,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
 
       <div className="mb-4">
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
-          Monthly Repayment:
+          Monthly Repayment (this year):
         </h2>
         <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency(monthlyRepayment * 100)}
@@ -38,7 +38,7 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
 
       <div className="mb-4">
         <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
-          Weekly Repayment:
+          Weekly Repayment (this year):
         </h2>
         <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency((monthlyRepayment * 100) / 4)}

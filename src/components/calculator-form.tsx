@@ -93,16 +93,28 @@ export function CalculatorForm({
             <SelectValue placeholder="Select loan type" />
           </SelectTrigger>
           <SelectContent className="border-2 border-black">
-            <SelectItem value="1" className="text-lg cursor-pointer">
+            <SelectItem
+              value="1"
+              className="text-lg cursor-pointer focus:hover:bg-[rgba(178,178,252,1)]"
+            >
               Plan 1
             </SelectItem>
-            <SelectItem value="2" className="text-lg cursor-pointer">
+            <SelectItem
+              value="2"
+              className="text-lg cursor-pointer focus:hover:bg-[rgba(178,178,252,1)]"
+            >
               Plan 2
             </SelectItem>
-            <SelectItem value="4" className="text-lg cursor-pointer">
+            <SelectItem
+              value="4"
+              className="text-lg cursor-pointer focus:hover:bg-[rgba(178,178,252,1)]"
+            >
               Plan 4
             </SelectItem>
-            <SelectItem value="5" className="text-lg cursor-pointer">
+            <SelectItem
+              value="5"
+              className="text-lg cursor-pointer focus:hover:bg-[rgba(178,178,252,1)]"
+            >
               Plan 5
             </SelectItem>
           </SelectContent>

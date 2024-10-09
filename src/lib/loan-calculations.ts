@@ -197,6 +197,15 @@ export function calculateRepayment(
     } monthly overpayment, your loan will be written off in ${writeOffYear}.`;
   }
 
+  // After the loan repayment calculations, compute the total amounts paid
+  const totalPaidPennies = cumulativeAmountPaidPennies;
+  const totalPaidWithOverpaymentPennies =
+    cumulativeAmountPaidWithOverpaymentPennies;
+
+  // Calculate the savings and percentage saving (can be negative)
+  const savingsPennies = totalPaidPennies - totalPaidWithOverpaymentPennies;
+  const percentageSaving = (savingsPennies / totalPaidPennies) * 100;
+
   // Monthly repayments
   const yearlyRepaymentThisYear = results[0].amountPaid;
   const monthlyRepaymentThisYear = Math.round(
@@ -209,23 +218,16 @@ export function calculateRepayment(
     yearlyRepaymentWithOverpaymentThisYear / 12 / 100
   );
 
-  // After the loan repayment calculations, compute the total amounts paid
-  const totalPaidPennies = cumulativeAmountPaidPennies;
-  const totalPaidWithOverpaymentPennies =
-    cumulativeAmountPaidWithOverpaymentPennies;
-
-  // Calculate the percentage savings if there's a saving
-  let percentageSaving = 0;
-  if (totalPaidWithOverpaymentPennies < totalPaidPennies) {
-    const savingsPennies = totalPaidPennies - totalPaidWithOverpaymentPennies;
-    percentageSaving = (savingsPennies / totalPaidPennies) * 100;
-  }
-
-  // Include the percentage saving in payoffInfo if there is a saving
+  // Include information about savings or losses
   if (percentageSaving > 0) {
     payoffInfo += `\nBy making overpayments, you save ${percentageSaving.toFixed(
       2
     )}% on the total amount repaid.`;
+  } else if (percentageSaving < 0) {
+    const lossAmount = -savingsPennies / 100; // Convert from pennies to pounds
+    payoffInfo += `\nOverpaying would not be beneficial as you would end up paying £${lossAmount.toFixed(
+      2
+    )} more in total.`;
   }
 
   return {
@@ -234,6 +236,6 @@ export function calculateRepayment(
     payoffInfo,
     interestRateInfo,
     results,
-    percentageSaving, // Include the percentage saving in the result
+    percentageSaving, // Include the percentage saving (can be negative)
   };
 }
