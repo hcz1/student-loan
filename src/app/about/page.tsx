@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] overflow-y-scroll max-h-[calc(100vh-10rem)]">
+    <div className="m-4 mt-8 md:m-0 p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] overflow-y-scroll max-h-[calc(100vh-20rem)]">
       <h1 className="text-4xl font-bold mb-6 uppercase">
         About UK Student Loans
       </h1>
@@ -93,13 +93,14 @@ const AboutPage: React.FC = () => {
           .
         </p>
       </div>
-
-      <Link
-        href="/"
-        className="inline-block mt-8 px-4 py-2 bg-white text-black border-4 border-black hover:bg-black hover:text-white transition-colors duration-200"
-      >
-        Back to Calculator
-      </Link>
+      <div className="mt-8">
+        <Link
+          href="/"
+          className="text-lg font-bold uppercase border-2 border-black px-3 py-3 hover:bg-black hover:text-white transition-colors"
+        >
+          Back to Calculator
+        </Link>
+      </div>
     </div>
   );
 };

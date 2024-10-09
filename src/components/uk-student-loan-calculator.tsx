@@ -24,12 +24,12 @@ export function UkStudentLoanCalculator() {
 
   return (
     <div
-      className={`p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
+      className={`m-4 mt-8 md:m-0 p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
         isCalculated ? "flex-grow" : ""
-      } flex flex-col overflow-y-scroll max-h-[calc(100vh-10rem)]`}
+      } flex flex-col overflow-y-scroll max-h-[calc(100vh-20rem)]`}
     >
       {!isCalculated && (
-        <h1 className="text-4xl font-bold mb-6 uppercase">
+        <h1 className="text-2xl sm:text-4xl font-bold mb-6 uppercase">
           UK Student Loan Calculator
         </h1>
       )}
@@ -52,6 +52,7 @@ export function UkStudentLoanCalculator() {
                   isCalculated ? "border-8 border-black p-4" : "border-b-0"
                 )}
                 onCalculate={handleCalculate}
+                advancedMode={!!calculationResult}
               />
             </Suspense>
           </motion.div>

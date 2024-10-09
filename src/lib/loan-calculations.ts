@@ -209,11 +209,31 @@ export function calculateRepayment(
     yearlyRepaymentWithOverpaymentThisYear / 12 / 100
   );
 
+  // After the loan repayment calculations, compute the total amounts paid
+  const totalPaidPennies = cumulativeAmountPaidPennies;
+  const totalPaidWithOverpaymentPennies =
+    cumulativeAmountPaidWithOverpaymentPennies;
+
+  // Calculate the percentage savings if there's a saving
+  let percentageSaving = 0;
+  if (totalPaidWithOverpaymentPennies < totalPaidPennies) {
+    const savingsPennies = totalPaidPennies - totalPaidWithOverpaymentPennies;
+    percentageSaving = (savingsPennies / totalPaidPennies) * 100;
+  }
+
+  // Include the percentage saving in payoffInfo if there is a saving
+  if (percentageSaving > 0) {
+    payoffInfo += `\nBy making overpayments, you save ${percentageSaving.toFixed(
+      2
+    )}% on the total amount repaid.`;
+  }
+
   return {
     monthlyRepayment: monthlyRepaymentThisYear,
     monthlyRepaymentWithOverpayment: monthlyRepaymentWithOverpaymentThisYear,
     payoffInfo,
     interestRateInfo,
     results,
+    percentageSaving, // Include the percentage saving in the result
   };
 }

@@ -19,11 +19,13 @@ import { Switch } from "@/components/ui/switch";
 interface CalculatorFormProps {
   className?: string;
   onCalculate: (loanDetails: LoanDetails) => void;
+  advancedMode: boolean;
 }
 
 export function CalculatorForm({
   className,
   onCalculate,
+  advancedMode,
 }: CalculatorFormProps) {
   const searchParams = useSearchParams();
   const loanAmountParams = searchParams.get("loanAmount");
@@ -159,16 +161,18 @@ export function CalculatorForm({
         </div>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="advanced-mode"
-          checked={isAdvancedMode}
-          onCheckedChange={setIsAdvancedMode}
-        />
-        <Label htmlFor="advanced-mode" className="text-lg">
-          Advanced Mode
-        </Label>
-      </div>
+      {advancedMode && (
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="advanced-mode"
+            checked={isAdvancedMode}
+            onCheckedChange={setIsAdvancedMode}
+          />
+          <Label htmlFor="advanced-mode" className="text-lg">
+            Advanced Mode
+          </Label>
+        </div>
+      )}
 
       {isAdvancedMode && (
         <div className="flex space-x-2">
@@ -206,7 +210,7 @@ export function CalculatorForm({
                 onChange={(e) => setOverpayment(Number(e.target.value))}
                 className="mt-1 w-full border-2 border-black text-lg p-2 pl-8"
                 step="1"
-                // min="0"
+                min="0"
                 max="100000"
               />
             </div>
