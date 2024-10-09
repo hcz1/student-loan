@@ -26,7 +26,7 @@ export function UkStudentLoanCalculator() {
     <div
       className={`m-4 mt-8 md:m-0 p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
         isCalculated ? "flex-grow" : ""
-      } flex flex-col overflow-y-scroll max-h-[calc(100vh-20rem)]`}
+      } flex flex-col overflow-y-scroll max-h-[calc(100vh-15rem)]`}
     >
       {!isCalculated && (
         <h1 className="text-2xl sm:text-4xl font-bold mb-6 uppercase">

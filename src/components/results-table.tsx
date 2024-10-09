@@ -1,5 +1,4 @@
 import { formatCurrency } from "@/lib/format-currency";
-
 import {
   Table,
   TableBody,
@@ -9,12 +8,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CalculationResult } from "@/types/loan";
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "./ui/tooltip";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
@@ -24,9 +26,20 @@ interface ResultsTableProps {
 
 export function ResultsTable({ result }: ResultsTableProps) {
   const { results, interestRateInfo } = result;
+  const [showOverpayment, setShowOverpayment] = useState(false);
+
   return (
     <div className="border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,255,0.3)] flex flex-col h-full">
-      <h2 className="text-2xl font-bold p-4">Repayment Schedule</h2>
+      <div className="flex justify-between items-center p-4">
+        <h2 className="text-2xl font-bold">Repayment Schedule</h2>
+        <div className="flex items-center gap-2">
+          <span>Show Overpayment</span>
+          <Switch
+            checked={showOverpayment}
+            onCheckedChange={setShowOverpayment}
+          />
+        </div>
+      </div>
       <div className="overflow-y-auto flex-grow">
         <Table>
           <TableHeader className="sticky top-0 bg-white z-10">
@@ -51,14 +64,41 @@ export function ResultsTable({ result }: ResultsTableProps) {
                   </Tooltip>
                 </TooltipProvider>
               </TableHead>
+
               <TableHead className="font-bold text-right">
                 Outstanding Amount
+                <AnimatePresence>
+                  {showOverpayment && (
+                    <motion.span
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="block text-xs text-blue-600"
+                    >
+                      (Regular / With Overpayment)
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </TableHead>
               <TableHead className="font-bold text-right">
                 Annual Interest
               </TableHead>
               <TableHead className="font-bold text-right">
                 Amount Paid
+                <AnimatePresence>
+                  {showOverpayment && (
+                    <motion.span
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="block text-xs text-blue-600"
+                    >
+                      (Regular / With Overpayment)
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </TableHead>
               <TableHead className="font-bold text-right flex items-center gap-1 justify-end">
                 Interest Rate
@@ -82,6 +122,19 @@ export function ResultsTable({ result }: ResultsTableProps) {
               </TableHead>
               <TableHead className="font-bold text-right">
                 Cumulative Amount Paid
+                <AnimatePresence>
+                  {showOverpayment && (
+                    <motion.span
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="block text-xs text-blue-600"
+                    >
+                      (Regular / With Overpayment)
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -94,24 +147,84 @@ export function ResultsTable({ result }: ResultsTableProps) {
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   {formatCurrency(row.outstandingAmount)}
+                  <AnimatePresence>
+                    {showOverpayment && (
+                      <motion.span
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="block text-sm text-blue-600"
+                      >
+                        {formatCurrency(row.outstandingAmountWithOverpayment)}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   {formatCurrency(row.annualInterest)}
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   {formatCurrency(row.amountPaid)}
+                  <AnimatePresence>
+                    {showOverpayment && (
+                      <motion.span
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="block text-sm text-blue-600"
+                      >
+                        {formatCurrency(row.amountPaidWithOverpayment)}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   {(row.interestRate * 100).toFixed(2)}%
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   {formatCurrency(row.cumulativeAmountPaid)}
+                  <AnimatePresence>
+                    {showOverpayment && (
+                      <motion.span
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="block text-sm text-blue-600"
+                      >
+                        {formatCurrency(
+                          row.cumulativeAmountPaidWithOverpayment
+                        )}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      <AnimatePresence>
+        {showOverpayment && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="p-4 bg-gray-100 border-t-2 border-black"
+          >
+            <p className="text-sm">
+              <span className="font-bold">Regular payments</span> are shown in
+              black.
+              <br />
+              <span className="font-bold text-blue-600">Overpayments</span> are
+              shown in blue below the regular payments.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

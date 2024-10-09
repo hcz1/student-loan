@@ -32,6 +32,8 @@ export const ResultsChart = ({ result }: ResultsChartProps) => {
   }));
 
   const totalAmountPaid = results[results.length - 1].cumulativeAmountPaid;
+  const totalAmountPaidWithOverpayment =
+    results[results.length - 1].cumulativeAmountPaidWithOverpayment;
   const interest = result.results.reduce(
     (acc, curr) => acc + curr.annualInterest,
     0
@@ -73,16 +75,28 @@ export const ResultsChart = ({ result }: ResultsChartProps) => {
         chartConfig={chartConfigLine}
         dataKey1={["year", "debt"]}
         dataKey2={["year", "paid"]}
+        footerHeader="Total Amount Paid"
+        footerDescription={`${formatCurrency(totalAmountPaid)}`}
       />
       <Component
         data={data}
         title="Loan Repayment"
-        description={`Overpayment with ${formatCurrency(
+        description={`${formatCurrency(
           overpaymentAnnualPennies
         )} overpayment per year`}
         chartConfig={chartConfigLine}
         dataKey1={["year", "debt"]}
         dataKey2={["year", "overpayment"]}
+        footerHeader="Total Amount Paid"
+        footerDescription={
+          <p>
+            <span>Without overpayment: {formatCurrency(totalAmountPaid)}</span>
+            <br />
+            <span>
+              With overpayment: {formatCurrency(totalAmountPaidWithOverpayment)}
+            </span>
+          </p>
+        }
       />
       <ComponentPieChart
         title="Breakdown of Loan"

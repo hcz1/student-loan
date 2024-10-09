@@ -25,6 +25,8 @@ export function Component({
   chartConfig,
   dataKey1,
   dataKey2,
+  footerHeader,
+  footerDescription,
 }: {
   data: any;
   title: string;
@@ -32,6 +34,8 @@ export function Component({
   chartConfig: ChartConfig;
   dataKey1: string[];
   dataKey2: string[];
+  footerHeader: string;
+  footerDescription: React.ReactNode;
 }) {
   return (
     <Card className="border-4 border-black ">
@@ -71,10 +75,10 @@ export function Component({
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}
+          {footerHeader}
         </div>
         <div className="leading-none text-muted-foreground">
-          {/* Showing total visitors for the last 6 months */}
+          {footerDescription}
         </div>
       </CardFooter>
     </Card>
