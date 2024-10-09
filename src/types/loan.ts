@@ -6,6 +6,7 @@ export interface LoanDetails {
   courseDuration: number;
   //   interestRate?: number;
   salaryIncreasePercentage: number;
+  overpayment: number | null;
 }
 
 export interface ResultRow {

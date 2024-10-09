@@ -8,12 +8,24 @@ interface ResultsChartProps {
 }
 export const ResultsChart = ({ result }: ResultsChartProps) => {
   const { results } = result;
-  const totalAmountPaid = results[results.length - 1].cumulativeAmountPaid;
+  const chartConfigLine = {
+    debt: {
+      label: "Outstanding Loan",
+      color: "hsl(var(--chart-1))",
+    },
+    paid: {
+      label: "Cumulative Amount Paid",
+      // color: "hsl(var(--chart-2))",
+    },
+  } satisfies ChartConfig;
+
   const data = results.map((result) => ({
-    month: result.year.toString(),
-    desktop: result.outstandingAmount / 100,
+    year: result.year.toString(),
+    debt: result.outstandingAmount / 100,
+    paid: result.cumulativeAmountPaid / 100,
   }));
 
+  const totalAmountPaid = results[results.length - 1].cumulativeAmountPaid;
   const interest = result.results.reduce(
     (acc, curr) => acc + curr.annualInterest,
     0
@@ -52,6 +64,9 @@ export const ResultsChart = ({ result }: ResultsChartProps) => {
         data={data}
         title="Loan Repayment"
         description="Outstanding loan amount"
+        chartConfig={chartConfigLine}
+        dataKey1={["year", "debt"]}
+        dataKey2={["year", "paid"]}
       />
       <ComponentPieChart
         title="Breakdown of Loan"

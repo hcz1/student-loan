@@ -44,7 +44,7 @@ export function CalculatorForm({
   //   const [interestRate, setInterestRate] = useState(7);
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
   const [salaryIncreasePercentage, setSalaryIncreasePercentage] = useState(2); // New state for salary increase
-
+  const [overpayment, setOverpayment] = useState<number | null>(null);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onCalculate({
@@ -55,6 +55,7 @@ export function CalculatorForm({
       courseDuration: parseInt(courseDuration),
       //   interestRate,
       salaryIncreasePercentage,
+      overpayment,
     });
   };
 
@@ -190,6 +191,26 @@ export function CalculatorForm({
               </span>
             </div>
           </div> */}
+          <div className="w-1/2">
+            <Label htmlFor="overpayment" className="text-lg font-bold">
+              Overpayment / Month
+            </Label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+                £
+              </span>
+              <Input
+                id="overpayment"
+                type="number"
+                value={overpayment ?? 100}
+                onChange={(e) => setOverpayment(Number(e.target.value))}
+                className="mt-1 w-full border-2 border-black text-lg p-2 pl-8"
+                step="1"
+                // min="0"
+                max="100000"
+              />
+            </div>
+          </div>
           <div className="w-1/2">
             <Label htmlFor="salaryIncrease" className="text-lg font-bold">
               Annual Salary Increase

@@ -10,6 +10,7 @@ export function calculateRepayment(
     courseStartYear,
     courseDuration,
     salaryIncreasePercentage,
+    overpayment,
   } = loanDetails;
 
   const balancePennies = Math.round(loanBalance * 100);
@@ -57,7 +58,7 @@ export function calculateRepayment(
       "Your interest rate is fixed at 7.3% for Postgraduate loans.";
   }
 
-  const overpaymentMonthlyPennies = 100 * 100; // £100 monthly overpayment in pennies
+  const overpaymentMonthlyPennies = (overpayment ?? 100) * 100; // £100 monthly overpayment in pennies
   const overpaymentAnnualPennies = overpaymentMonthlyPennies * 12;
 
   const results: ResultRow[] = [];
@@ -187,9 +188,13 @@ export function calculateRepayment(
   }
 
   if (payoffYearWithOverpayment < writeOffYear) {
-    payoffInfo += `\nWith £100 monthly overpayment, your loan will be paid off in ${payoffYearWithOverpayment}.`;
+    payoffInfo += `\nWith £${
+      overpaymentMonthlyPennies / 100
+    } monthly overpayment, your loan will be paid off in ${payoffYearWithOverpayment}.`;
   } else {
-    payoffInfo += `\nEven with £100 monthly overpayment, your loan will be written off in ${writeOffYear}.`;
+    payoffInfo += `\nEven with £${
+      overpaymentMonthlyPennies / 100
+    } monthly overpayment, your loan will be written off in ${writeOffYear}.`;
   }
 
   // Monthly repayments

@@ -18,23 +18,20 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A line chart";
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
-
 export function Component({
   data,
   title,
   description,
+  chartConfig,
+  dataKey1,
+  dataKey2,
 }: {
   data: any;
   title: string;
   description: string;
+  chartConfig: ChartConfig;
+  dataKey1: string[];
+  dataKey2: string[];
 }) {
   return (
     <Card className="border-4 border-black ">
@@ -53,23 +50,21 @@ export function Component({
             }}
           >
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              //   tickLine={false}
-              //   axisLine={false}
-              tickMargin={8}
-              //   tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              //   cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+            <XAxis dataKey={dataKey1[0]} tickMargin={8} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line
+              dataKey={dataKey1[1]}
+              type="natural"
+              stroke={chartConfig[dataKey1[1]].color}
+              strokeWidth={2}
+              label={dataKey1[1]}
             />
             <Line
-              dataKey="desktop"
+              dataKey={dataKey2[1]}
               type="natural"
-              stroke="var(--color-desktop)"
+              stroke={chartConfig[dataKey2[1]].color}
               strokeWidth={2}
-              //   dot={false}
+              label={dataKey2[1]}
             />
           </LineChart>
         </ChartContainer>
