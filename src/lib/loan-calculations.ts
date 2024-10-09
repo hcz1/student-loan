@@ -9,9 +9,9 @@ export function calculateRepayment(
     grossSalary,
     courseStartYear,
     courseDuration,
-    // interestRate: interestRateParam,
     salaryIncreasePercentage,
   } = loanDetails;
+
   const balancePennies = Math.round(loanBalance * 100);
   let salaryPennies = Math.round(grossSalary * 100);
   const salaryIncrease = salaryIncreasePercentage / 100;
@@ -22,6 +22,7 @@ export function calculateRepayment(
   let interestRate = 0.043; // Default interest rate
   let interestRateInfo = ""; // Interest rate information text
 
+  // Set loan parameters based on loanType
   if (loanType === "1") {
     thresholdPennies = 2499000; // £24,990
     writeOffYears = 25;
@@ -56,13 +57,20 @@ export function calculateRepayment(
       "Your interest rate is fixed at 7.3% for Postgraduate loans.";
   }
 
+  const overpaymentMonthlyPennies = 100 * 100; // £100 monthly overpayment in pennies
+  const overpaymentAnnualPennies = overpaymentMonthlyPennies * 12;
+
   const results: ResultRow[] = [];
   let outstandingAmountPennies = balancePennies;
   let cumulativeAmountPaidPennies = 0;
+  let outstandingAmountWithOverpaymentPennies = balancePennies;
+  let cumulativeAmountPaidWithOverpaymentPennies = 0;
+
   const graduationYear = courseStartYear + courseDuration;
   const currentYear = new Date().getFullYear();
   const writeOffYear = graduationYear + writeOffYears;
   let payoffYear = writeOffYear;
+  let payoffYearWithOverpayment = writeOffYear;
 
   for (let year = currentYear; year <= writeOffYear; year++) {
     // Increase salary annually
@@ -99,6 +107,7 @@ export function calculateRepayment(
       }
     }
 
+    // Standard repayment scenario
     const interestPennies = Math.round(outstandingAmountPennies * interestRate);
     outstandingAmountPennies += interestPennies;
 
@@ -117,34 +126,87 @@ export function calculateRepayment(
     outstandingAmountPennies -= yearlyPaymentPennies;
     cumulativeAmountPaidPennies += yearlyPaymentPennies;
 
+    if (outstandingAmountPennies <= 0 && payoffYear === writeOffYear) {
+      payoffYear = year;
+    }
+
+    // Repayment with overpayment scenario
+    const interestPenniesWithOverpayment = Math.round(
+      outstandingAmountWithOverpaymentPennies * interestRate
+    );
+    outstandingAmountWithOverpaymentPennies += interestPenniesWithOverpayment;
+
+    const yearlyPaymentWithOverpaymentPennies = Math.min(
+      annualRepaymentPennies + overpaymentAnnualPennies,
+      outstandingAmountWithOverpaymentPennies
+    );
+    outstandingAmountWithOverpaymentPennies -=
+      yearlyPaymentWithOverpaymentPennies;
+    cumulativeAmountPaidWithOverpaymentPennies +=
+      yearlyPaymentWithOverpaymentPennies;
+
+    if (
+      outstandingAmountWithOverpaymentPennies <= 0 &&
+      payoffYearWithOverpayment === writeOffYear
+    ) {
+      payoffYearWithOverpayment = year;
+    }
+
     results.push({
       year,
-      outstandingAmount: outstandingAmountPennies,
+      outstandingAmount: Math.max(outstandingAmountPennies, 0),
       amountPaid: yearlyPaymentPennies,
       interestRate,
       annualInterest: interestPennies,
       cumulativeAmountPaid: cumulativeAmountPaidPennies,
       salary: salaryPennies,
+      outstandingAmountWithOverpayment: Math.max(
+        outstandingAmountWithOverpaymentPennies,
+        0
+      ),
+      amountPaidWithOverpayment: yearlyPaymentWithOverpaymentPennies,
+      cumulativeAmountPaidWithOverpayment:
+        cumulativeAmountPaidWithOverpaymentPennies,
     });
 
-    if (outstandingAmountPennies <= 0) {
-      payoffYear = year;
-      break;
+    if (
+      outstandingAmountPennies <= 0 &&
+      outstandingAmountWithOverpaymentPennies <= 0
+    ) {
+      break; // Both loans are paid off
     }
   }
 
-  const payoffInfo =
-    payoffYear < writeOffYear
-      ? `Your loan will be paid off in ${payoffYear}.`
-      : `Your loan will be written off in ${writeOffYear}.`;
+  // Compute payoff information
+  let payoffInfo = "";
 
+  if (payoffYear < writeOffYear) {
+    payoffInfo += `Your loan will be paid off in ${payoffYear} without overpayment.`;
+  } else {
+    payoffInfo += `Your loan will be written off in ${writeOffYear} without overpayment.`;
+  }
+
+  if (payoffYearWithOverpayment < writeOffYear) {
+    payoffInfo += `\nWith £100 monthly overpayment, your loan will be paid off in ${payoffYearWithOverpayment}.`;
+  } else {
+    payoffInfo += `\nEven with £100 monthly overpayment, your loan will be written off in ${writeOffYear}.`;
+  }
+
+  // Monthly repayments
   const yearlyRepaymentThisYear = results[0].amountPaid;
   const monthlyRepaymentThisYear = Math.round(
     yearlyRepaymentThisYear / 12 / 100
   );
 
+  const yearlyRepaymentWithOverpaymentThisYear =
+    results[0].amountPaidWithOverpayment;
+  const monthlyRepaymentWithOverpaymentThisYear = Math.round(
+    yearlyRepaymentWithOverpaymentThisYear / 12 / 100
+  );
+
   return {
     monthlyRepayment: monthlyRepaymentThisYear,
+    monthlyRepaymentWithOverpayment: monthlyRepaymentWithOverpaymentThisYear,
     payoffInfo,
     interestRateInfo,
     results,

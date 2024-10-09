@@ -16,6 +16,9 @@ export interface ResultRow {
   annualInterest: number;
   cumulativeAmountPaid: number;
   salary: number;
+  amountPaidWithOverpayment: number;
+  outstandingAmountWithOverpayment: number;
+  cumulativeAmountPaidWithOverpayment: number;
 }
 
 export interface CalculationResult {
@@ -23,4 +26,5 @@ export interface CalculationResult {
   payoffInfo: string;
   results: ResultRow[];
   interestRateInfo: string;
+  monthlyRepaymentWithOverpayment: number;
 }
