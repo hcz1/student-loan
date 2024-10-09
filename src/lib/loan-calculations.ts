@@ -1,4 +1,5 @@
 import type { LoanDetails, CalculationResult, ResultRow } from "@/types/loan";
+import { formatCurrency } from "@/utils";
 
 export function calculateRepayment(
   loanDetails: LoanDetails
@@ -225,8 +226,8 @@ export function calculateRepayment(
     )}% on the total amount repaid.`;
   } else if (percentageSaving < 0) {
     const lossAmount = -savingsPennies / 100; // Convert from pennies to pounds
-    payoffInfo += `\nOverpaying would not be beneficial as you would end up paying £${lossAmount.toFixed(
-      2
+    payoffInfo += `\nOverpaying would not be beneficial as you would end up paying ${formatCurrency(
+      lossAmount
     )} more in total.`;
   }
 
@@ -237,5 +238,6 @@ export function calculateRepayment(
     interestRateInfo,
     results,
     percentageSaving, // Include the percentage saving (can be negative)
+    overpaymentAnnualPennies,
   };
 }

@@ -29,4 +29,5 @@ export interface CalculationResult {
   interestRateInfo: string;
   monthlyRepaymentWithOverpayment: number;
   percentageSaving: number;
+  overpaymentAnnualPennies: number;
 }

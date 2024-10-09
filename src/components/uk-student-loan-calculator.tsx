@@ -70,6 +70,26 @@ export function UkStudentLoanCalculator() {
             )}
           </AnimatePresence>
         </div>
+
+        <AnimatePresence>
+          {isCalculated && calculationResult && (
+            <motion.div
+              className="w-full mt-6 p-4 border-8 border-black bg-white"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
+                Loan Status:
+              </h2>
+              <p className="text-2xl font-bold font-mono text-[rgba(0,0,255,1)]">
+                {calculationResult.payoffInfo}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence>
           {isCalculated && calculationResult && (
             <>

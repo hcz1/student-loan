@@ -6,7 +6,7 @@ interface ResultsDisplayProps {
 }
 
 export function ResultsDisplay({ result }: ResultsDisplayProps) {
-  const { monthlyRepayment, payoffInfo, results } = result;
+  const { monthlyRepayment, results } = result;
   const totalAmountPaid = results[results.length - 1].cumulativeAmountPaid;
   return (
     <div className="p-4 border-8 border-black bg-white">
@@ -42,15 +42,6 @@ export function ResultsDisplay({ result }: ResultsDisplayProps) {
         </h2>
         <p className="text-3xl font-mono text-[rgba(0,0,255,1)]">
           {formatCurrency((monthlyRepayment * 100) / 4)}
-        </p>
-      </div>
-
-      <div>
-        <h2 className="text-2xl font-bold uppercase mb-1 border-b-3 border-black pb-1">
-          Loan Status:
-        </h2>
-        <p className="text-2xl font-bold font-mono text-[rgba(0,0,255,1)]">
-          {payoffInfo}
         </p>
       </div>
     </div>
