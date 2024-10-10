@@ -34,7 +34,11 @@ export function UkStudentLoanCalculator() {
 
   return (
     <div
-      className={`m-4 mt-8 md:m-0 p-6 bg-white border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,255,0.3)] ${
+      className={`m-4 mt-8 md:m-0 md:p-6 bg-white ${
+        !isCalculated
+          ? "border-4 border-black p-6 shadow-[8px_8px_0_0_rgba(0,0,255,0.3)]"
+          : "md:shadow-[8px_8px_0_0_rgba(0,0,255,0.3)]"
+      } md:border-4 md:border-black ${
         isCalculated ? "flex-grow" : ""
       } flex flex-col overflow-y-scroll max-h-[calc(100vh-15rem)]`}
     >
@@ -50,10 +54,7 @@ export function UkStudentLoanCalculator() {
       >
         <div className="w-full flex flex-col lg:flex-row lg:h-full">
           <motion.div
-            className={cn(
-              "lg:pr-3",
-              isCalculated ? "w-full lg:w-1/2" : "w-full"
-            )}
+            className={cn(isCalculated ? "w-full lg:w-1/2" : "w-full")}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <Suspense fallback={<div>Loading...</div>}>

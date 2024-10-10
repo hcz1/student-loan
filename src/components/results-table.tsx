@@ -12,11 +12,10 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
@@ -47,22 +46,20 @@ export function ResultsTable({ result }: ResultsTableProps) {
               <TableHead className="font-bold text-left">Year</TableHead>
               <TableHead className="font-bold text-right flex items-center gap-1 justify-end">
                 Salary
-                <TooltipProvider delayDuration={0}>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="right"
-                      className="border-2 border-black bg-white p-2 shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
-                    >
-                      <p className="text-left mb-2">
-                        We assume a 2% increase in salary each year. <br /> Use
-                        the advanced mode slider to adjust the salary increase.
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Popover>
+                  <PopoverTrigger>
+                    <Info size={16} />
+                  </PopoverTrigger>
+                  <PopoverContent
+                    side="right"
+                    className="border-2 border-black bg-white p-2 shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
+                  >
+                    <p className="text-left mb-2">
+                      We assume a 2% increase in salary each year. <br /> Use
+                      the advanced mode slider to adjust the salary increase.
+                    </p>
+                  </PopoverContent>
+                </Popover>
               </TableHead>
 
               <TableHead className="font-bold text-right">
@@ -100,25 +97,27 @@ export function ResultsTable({ result }: ResultsTableProps) {
                   )}
                 </AnimatePresence>
               </TableHead>
+
               <TableHead className="font-bold text-right flex items-center gap-1 justify-end">
                 Interest Rate
-                <TooltipProvider delayDuration={0}>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent className="border-2 border-black bg-white p-2 shadow-[2px_2px_0_0_rgba(0,0,0,1)]">
-                      <p className="mb-2">{interestRateInfo}</p>
-                      <Link
-                        href="https://www.gov.uk/repaying-your-student-loan/what-you-pay"
-                        target="_blank"
-                        className="text-black font-bold hover:bg-black hover:text-white px-2 py-1 border-2 border-black inline-block"
-                      >
-                        More information
-                      </Link>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Popover>
+                  <PopoverTrigger>
+                    <Info size={16} />
+                  </PopoverTrigger>
+                  <PopoverContent
+                    side="right"
+                    className="border-2 border-black bg-white p-2 shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
+                  >
+                    <p className="mb-2">{interestRateInfo}</p>
+                    <Link
+                      href="https://www.gov.uk/repaying-your-student-loan/what-you-pay"
+                      target="_blank"
+                      className="text-black font-bold hover:bg-black hover:text-white px-2 py-1 border-2 border-black inline-block"
+                    >
+                      More information
+                    </Link>
+                  </PopoverContent>
+                </Popover>
               </TableHead>
               <TableHead className="font-bold text-right">
                 Cumulative Amount Paid
