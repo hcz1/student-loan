@@ -209,14 +209,12 @@ export function calculateRepayment(
 
   // Monthly repayments
   const yearlyRepaymentThisYear = results[0].amountPaid;
-  const monthlyRepaymentThisYear = Math.round(
-    yearlyRepaymentThisYear / 12 / 100
-  );
+  const monthlyRepaymentThisYear = Math.round(yearlyRepaymentThisYear / 12);
 
   const yearlyRepaymentWithOverpaymentThisYear =
     results[0].amountPaidWithOverpayment;
   const monthlyRepaymentWithOverpaymentThisYear = Math.round(
-    yearlyRepaymentWithOverpaymentThisYear / 12 / 100
+    yearlyRepaymentWithOverpaymentThisYear / 12
   );
 
   // Include information about savings or losses
