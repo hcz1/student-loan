@@ -21,8 +21,23 @@ export const metadata: Metadata = {
   title: "UK Student Loan Repayment Calculator",
   description:
     "Calculate your student loan repayments based on your salary with our easy-to-use UK student finance calculator. Covers Plan 1, 2, 4, 5 and postgraduate loans.",
-  keywords:
-    "student loan calculator, UK student loan, repayment calculator, student finance, loan repayment, salary-based calculator",
+  keywords: [
+    "student loan calculator",
+    "UK student loan",
+    "repayment calculator",
+    "student finance",
+    "loan repayment",
+    "salary-based calculator",
+    "student loan interest",
+    "student loan calculator uk",
+    "student loan payment calculator",
+    "student loan repayment calculator",
+    "loan repayment calculator uk",
+    "student loan repayment calculator based on salary",
+    "student finance repayment calculator",
+    "student loan overpayment calculator",
+    "student loan monthly repayment calculator",
+  ],
   applicationName: "UK Student Loan Repayment Calculator",
   category: "finance",
 };
