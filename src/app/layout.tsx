@@ -5,6 +5,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { ConsentBanner } from "@/components/consent-banner";
+import { Toaster } from "@/components/ui/toaster";
+import { NewsletterSignupButton } from "@/components/newsletter-signup";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -61,6 +63,7 @@ export default function RootLayout({
         <Footer />
         <ConsentBanner />
         <GoogleAnalytics gaId="G-GRS5LFFVXS" />
+        <Toaster />
       </body>
     </html>
   );
