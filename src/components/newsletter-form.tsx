@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "./ui/input";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { addEmail } from "@/actions/email";
 import { Button } from "./ui/button";
 
@@ -24,7 +24,16 @@ export function NewsletterForm() {
         placeholder="Your email"
         className="mr-2 p-2 border-2 border-black rounded"
       />
-      <Button type="submit">Subscribe</Button>
+      <FormButton />
     </form>
   );
 }
+
+const FormButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending}>
+      {pending ? "Subscribing..." : "Subscribe"}
+    </Button>
+  );
+};
