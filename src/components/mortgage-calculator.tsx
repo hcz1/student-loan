@@ -168,27 +168,29 @@ export function MortgageCalculator() {
                 label="Property Value"
                 value={propertyValue}
                 onChange={(e) => setPropertyValue(e.target.value)}
-                frontAdornment
+                frontAdornment="£"
               />
               <InputField
                 id="deposit"
                 label="Deposit"
                 value={deposit}
                 onChange={(e) => setDeposit(e.target.value)}
-                frontAdornment
+                frontAdornment="£"
               />
               <InputField
                 id="interestRate"
-                label="Interest Rate (%)"
+                label="Interest Rate"
                 value={interestRate}
                 onChange={(e) => setInterestRate(e.target.value)}
                 step="0.1"
+                rearAdornment="%"
               />
               <InputField
                 id="loanTerm"
-                label="Loan Term (years)"
+                label="Loan Term"
                 value={loanTerm}
                 onChange={(e) => setLoanTerm(e.target.value)}
+                rearAdornment="years"
               />
               <Button
                 type="submit"
@@ -350,7 +352,8 @@ interface InputFieldProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   step?: string;
-  frontAdornment?: boolean;
+  frontAdornment?: React.ReactNode;
+  rearAdornment?: React.ReactNode;
 }
 
 function InputField({
@@ -360,6 +363,7 @@ function InputField({
   onChange,
   step,
   frontAdornment,
+  rearAdornment,
 }: InputFieldProps) {
   return (
     <div>
@@ -369,7 +373,12 @@ function InputField({
       <div className="relative">
         {frontAdornment && (
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
-            £
+            {frontAdornment}
+          </span>
+        )}
+        {rearAdornment && (
+          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg font-bold">
+            {rearAdornment}
           </span>
         )}
         <Input
@@ -377,7 +386,11 @@ function InputField({
           type="number"
           value={value}
           onChange={onChange}
-          className="mt-1 w-full border-2 border-black text-lg p-2 pl-8"
+          className={cn(
+            "mt-1 w-full border-2 border-black text-lg p-2",
+            frontAdornment ? "pl-8" : "",
+            rearAdornment ? "pr-16" : ""
+          )}
           step={step}
           required
         />
