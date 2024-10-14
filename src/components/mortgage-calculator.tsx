@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import {
 import { Component as LineChart } from "./charts/line-chart";
 import { ComponentPieChart } from "./charts/pie-chart";
 import { ChartConfig } from "./ui/chart";
+import { ComponentAreaChart } from "./charts/area-chart";
 
 interface MortgageStats {
   monthlyPayment: number;
@@ -35,6 +36,13 @@ interface RepaymentRow {
   annualPrincipal: number;
 }
 
+interface EquityGrowthData {
+  year: number;
+  propertyValue: number;
+  loanBalance: number;
+  equity: number;
+}
+
 export function MortgageCalculator() {
   const [propertyValue, setPropertyValue] = useState("");
   const [deposit, setDeposit] = useState("");
@@ -44,6 +52,7 @@ export function MortgageCalculator() {
     null
   );
   const [isCalculated, setIsCalculated] = useState(false);
+  const [annualAppreciationRate, setAnnualAppreciationRate] = useState(3);
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,6 +139,68 @@ export function MortgageCalculator() {
       color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
+
+  const chartConfigArea = {
+    propertyValue: {
+      label: "Property Value",
+      color: "hsl(var(--chart-1))",
+    },
+    loanBalance: {
+      label: "Loan Balance",
+      color: "hsl(var(--chart-2))",
+    },
+    equity: {
+      label: "Equity",
+      color: "hsl(var(--chart-3))",
+    },
+  } satisfies ChartConfig;
+
+  const calculateEquityGrowth = useCallback((): EquityGrowthData[] => {
+    if (!mortgageStats) return [];
+
+    const appreciationRate = annualAppreciationRate / 100;
+    let currentPropertyValue = Number(propertyValue);
+    const equityGrowth: EquityGrowthData[] = [];
+
+    mortgageStats.repaymentSchedule.forEach((row) => {
+      currentPropertyValue *= 1 + appreciationRate;
+      const equity = currentPropertyValue - row.remainingBalance;
+
+      equityGrowth.push({
+        year: row.year,
+        propertyValue: currentPropertyValue,
+        loanBalance: row.remainingBalance,
+        equity: equity,
+      });
+    });
+
+    return equityGrowth;
+  }, [mortgageStats, propertyValue, annualAppreciationRate]);
+
+  const handleAppreciationRateChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newRate = parseFloat(e.target.value);
+    if (!isNaN(newRate) && newRate >= 0) {
+      setAnnualAppreciationRate(newRate);
+    }
+  };
+
+  const appreciationRateControl = (
+    <div className="flex items-center space-x-2">
+      <Label htmlFor="appreciation-rate">Annual Appreciation Rate:</Label>
+      <Input
+        id="appreciation-rate"
+        type="number"
+        value={annualAppreciationRate}
+        onChange={handleAppreciationRateChange}
+        className="w-20"
+        min="0"
+        step="0.1"
+      />
+      <span>%</span>
+    </div>
+  );
 
   return (
     <div
@@ -336,6 +407,24 @@ export function MortgageCalculator() {
                   chartConfig={chartConfigPie}
                   dataKey="amount"
                   nameKey="label"
+                />
+              </motion.div>
+              <motion.div
+                className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <ComponentAreaChart<EquityGrowthData>
+                  title="Equity Growth"
+                  description="Property value, loan balance, and equity over time"
+                  chartData={calculateEquityGrowth()}
+                  chartConfig={chartConfigArea}
+                  footerHeader="Equity Growth"
+                  footerDescription={`Over ${loanTerm} years at ${annualAppreciationRate}% annual appreciation`}
+                  dataKeys={["propertyValue", "loanBalance", "equity"]}
+                  headerActions={appreciationRateControl}
                 />
               </motion.div>
             </>
