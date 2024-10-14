@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { ConsentBanner } from "@/components/consent-banner";
 import { Toaster } from "@/components/ui/toaster";
 import { NewsletterSignupButton } from "@/components/newsletter-signup";
+import ReviewButton from "@/components/review-button";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -64,6 +65,7 @@ export default function RootLayout({
         <ConsentBanner />
         <GoogleAnalytics gaId="G-GRS5LFFVXS" />
         <Toaster />
+        <ReviewButton /> {/* Add this line */}
       </body>
     </html>
   );
