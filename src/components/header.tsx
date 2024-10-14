@@ -5,6 +5,7 @@ import Link from "next/link";
 import { NewsletterSignupButton } from "./newsletter-signup";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +13,23 @@ export default function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isMortgage = pathname === "/mortgage";
+  const isAbout = pathname === "/about";
+  const isPrivacy = pathname === "/privacy";
+  const isTerms = pathname === "/terms";
+  const title = isHome
+    ? "UK Student Loan Calculator"
+    : isMortgage
+    ? "Mortgage Calculator"
+    : isAbout
+    ? "About"
+    : isPrivacy
+    ? "Privacy Policy"
+    : isTerms
+    ? "Terms of Use"
+    : "UK Student Loan Calculator";
   return (
     <header className="fixed top-0 left-0 right-0 bg-white z-10 border-b-4 border-black">
       <div className="container mx-auto px-4">
@@ -28,7 +45,7 @@ export default function Header() {
               height={40}
               className="sm:w-[50px] sm:h-[50px]"
             />
-            <span className="hidden sm:inline">UK Student Loan Calculator</span>
+            <span className="hidden sm:inline">{title}</span>
           </Link>
 
           {/* Desktop Navigation */}

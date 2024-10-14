@@ -4,16 +4,16 @@ export default function Footer() {
   return (
     <footer className="bg-white border-t-2 border-black">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex flex-wrap items-center justify-center sm:justify-between">
+        <div className="flex flex-col items-center space-y-4 sm:flex-row sm:justify-between sm:space-y-0">
           <p className="text-sm font-bold text-center">
             UK Student Loan Calculator
           </p>
           <nav>
-            <ul className="flex space-x-4">
+            <ul className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4">
               <li>
                 <Link
                   href="/privacy"
-                  className="text-lg font-bold uppercase border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-colors"
+                  className="text-lg font-bold uppercase border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-colors block text-center"
                 >
                   Privacy Policy
                 </Link>
@@ -21,7 +21,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="text-lg font-bold uppercase border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-colors"
+                  className="text-lg font-bold uppercase border-2 border-black px-3 py-1 hover:bg-black hover:text-white transition-colors block text-center"
                 >
                   Terms of Use
                 </Link>
