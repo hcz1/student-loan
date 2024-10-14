@@ -1,7 +1,8 @@
 "use client";
-// Add these imports
+
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { NewsletterForm } from "./newsletter-form";
 
 export function NewsletterSignupButton() {
   const { toast } = useToast();
@@ -11,19 +12,7 @@ export function NewsletterSignupButton() {
       title: "Newsletter Signup",
       description: "Enter your email to sign up for our newsletter",
 
-      action: (
-        <form
-          className="flex items-center w-80"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <input
-            type="email"
-            placeholder="Your email"
-            className="mr-2 p-2 border-2 border-black rounded"
-          />
-          <Button type="submit">Subscribe</Button>
-        </form>
-      ),
+      action: <NewsletterForm />,
     });
   };
 
