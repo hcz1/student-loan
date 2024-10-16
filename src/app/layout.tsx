@@ -6,7 +6,6 @@ import { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { ConsentBanner } from "@/components/consent-banner";
 import { Toaster } from "@/components/ui/toaster";
-import { NewsletterSignupButton } from "@/components/newsletter-signup";
 import ReviewButton from "@/components/review-button";
 
 const geistSans = localFont({
@@ -27,6 +26,7 @@ export const metadata: Metadata = {
   keywords: [
     "student loan calculator",
     "UK student loan",
+    "student debt calculator uk",
     "repayment calculator",
     "student finance",
     "loan repayment",
